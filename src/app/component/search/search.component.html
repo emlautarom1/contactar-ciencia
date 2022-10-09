@@ -26,39 +26,39 @@
       <input type="search" class="border rounded w-full p-3 outline-offset-0 outline-lime-500" placeholder="Buscar">
     </div>
     <!-- Results -->
-    <div *ngFor="let _ of [].constructor(5)" class="flex border-t border-x px-6 py-6 hover:bg-slate-100 cursor-pointer">
-      <div class="flex flex-col gap-4">
-        <!-- Header -->
-        <div class="flex flex-row gap-2 items-center">
-          <img
-            src="https://www.upwork.com/profile-portraits/c1Xuittenw2sFQBlZhJmvGye5hM8RF6STXYCd-s54nVZKl8if__9wsUp63Nf5a_Yun"
-            alt="avatar" class="w-16 rounded-full">
-          <div>
-            <h1 class="text-lime-600 font-bold">Stella Marys Bogino</h1>
-            <h2 class="text-sm">Agronomía y Dasonomía</h2>
-            <h3 class="text-xs font-light">San Luis</h3>
+    <div *ngFor="let _ of [].constructor(5)" class="flex border-t border-x px-6 py-6 hover:bg-slate-100">
+      <a routerLink="/profile/test">
+        <div class="flex flex-col gap-4">
+          <!-- Header -->
+          <div class="flex flex-row gap-2 items-center">
+            <img
+              src="https://www.upwork.com/profile-portraits/c1Xuittenw2sFQBlZhJmvGye5hM8RF6STXYCd-s54nVZKl8if__9wsUp63Nf5a_Yun"
+              alt="avatar" class="w-16 rounded-full">
+            <div>
+              <h1 class="text-lime-600 font-bold">Stella Marys Bogino</h1>
+              <h2 class="text-sm">Agronomía y Dasonomía</h2>
+              <h3 class="text-xs font-light">San Luis</h3>
+            </div>
+          </div>
+          <!-- Info -->
+          <div class="flex flex-row gap-1">
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nulla quidem adipisci reiciendis nobis mollitia.
+              Minus, ducimus explicabo! Itaque iste dolore illo maiores et molestias saepe, expedita harum rerum sapiente
+              quibusdam!</p>
+            <button class=" text-lime-600 font-bold">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                <path fill-rule="evenodd"
+                  d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z"
+                  clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+          <!-- Skills -->
+          <div class="flex flex-row gap-2">
+            <span *ngFor="let _ of [].constructor(5)" class="bg-slate-200 hover:bg-slate-300 rounded-xl px-3">Skill</span>
           </div>
         </div>
-
-        <!-- Info -->
-        <div class="flex flex-row gap-1">
-          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nulla quidem adipisci reiciendis nobis mollitia.
-            Minus, ducimus explicabo! Itaque iste dolore illo maiores et molestias saepe, expedita harum rerum sapiente
-            quibusdam!</p>
-          <button class=" text-lime-600 font-bold">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-              <path fill-rule="evenodd"
-                d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z"
-                clip-rule="evenodd" />
-            </svg>
-          </button>
-        </div>
-
-        <!-- Skills -->
-        <div class="flex flex-row gap-2">
-          <span *ngFor="let _ of [].constructor(5)" class="bg-slate-200 hover:bg-slate-300 rounded-xl px-3">Skill</span>
-        </div>
-      </div>
+      </a>
     </div>
     <!-- Pagination -->
     <div class="flex flex-row px-5 py-6 gap-2 border rounded-b justify-end">
