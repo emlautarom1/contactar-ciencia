@@ -1,4 +1,4 @@
-<div class="container mx-auto grid grid-cols-8 h-screen">
+<div class="container mx-auto grid grid-cols-8">
   <!-- Controls -->
   <div class="col-span-2 flex flex-col gap-3 py-2 px-4 leading-loose">
     <h1 class="text-xl">Filtrar Por</h1>
@@ -19,6 +19,7 @@
     </div>
   </div>
 
+  <!-- Search -->
   <div class="col-span-6">
     <!-- Search input -->
     <div class="flex flex-row px-5 py-6 border-t border-x rounded-t">
@@ -26,7 +27,7 @@
         class="w-full py-5 px-4 h-2 border rounded outline-offset-0  outline-lime-500">
     </div>
     <!-- Results -->
-    <div *ngFor="let _ of [].constructor(3)" class="flex border-t border-x px-6 py-6 hover:bg-slate-100 cursor-pointer">
+    <div *ngFor="let _ of [].constructor(5)" class="flex border-t border-x px-6 py-6 hover:bg-slate-100 cursor-pointer">
       <div class="flex flex-col gap-4">
         <!-- Header -->
         <div class="flex flex-row gap-2 items-center">
@@ -62,25 +63,35 @@
     </div>
     <!-- Pagination -->
     <div class="flex flex-row px-5 py-6 gap-2 border rounded-b justify-end">
-      <span class="opacity-40 self-center">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
-          <path fill-rule="evenodd"
-            d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z"
-            clip-rule="evenodd" />
-        </svg>
+
+      <span class="text-slate-500 px-2">
+        <span class="align-text-bottom inline-block">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+            <path fill-rule="evenodd"
+              d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z"
+              clip-rule="evenodd" />
+          </svg>
+        </span>
+        <span>Atrás</span>
       </span>
+
       <span class="cursor-pointer font-bold px-1 text-lime-600 border-b-4 border-lime-500">1</span>
       <span class="cursor-pointer font-bold px-1 hover:underline hover:text-lime-700">2</span>
       <span class="cursor-pointer font-bold px-1 hover:underline hover:text-lime-700">3</span>
       <span class="cursor-pointer font-bold px-1 hover:underline hover:text-lime-700">4</span>
       <span>...</span>
-      <span class="self-center text-lime-600">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
-          <path fill-rule="evenodd"
-            d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z"
-            clip-rule="evenodd" />
-        </svg>
+
+      <span class="text-lime-600 px-2 cursor-pointer">
+        <span>Siguiente</span>
+        <span class="align-text-bottom inline-block">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+            <path fill-rule="evenodd"
+              d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z"
+              clip-rule="evenodd" />
+          </svg>
+        </span>
       </span>
+
     </div>
   </div>
 </div>
