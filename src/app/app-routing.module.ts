@@ -4,6 +4,8 @@ import { ProfileComponent } from './component/profile/profile.component';
 import { HomeComponent } from './component/home/home.component';
 import { NotFoundComponent } from './component/not-found/not-found.component';
 import { SearchComponent } from './component/search/search.component';
+import { SignUpComponent } from './component/sign-up/sign-up.component';
+import { LoginComponent } from './component/login/login.component';
 
 const routes: Routes = [
   {
@@ -17,6 +19,14 @@ const routes: Routes = [
   {
     path: "profile/:id",
     component: ProfileComponent
+  },
+  {
+    path: "signup",
+    component: SignUpComponent
+  },
+  {
+    path: "login",
+    component: LoginComponent
   },
   {
     path: "**",
