@@ -1,1 +1,86 @@
-<p>search works!</p>
+<div class="container mx-auto grid grid-cols-8 h-screen">
+  <!-- Controls -->
+  <div class="col-span-2 flex flex-col gap-3 py-2 px-4 leading-loose">
+    <h1 class="text-xl">Filtrar Por</h1>
+    <hr>
+    <div>
+      <h2>Categoría</h2>
+      <ul class="mx-2">
+        <li class="text-sm font-bold leading-relaxed text-lime-600">Opción 1</li>
+        <li *ngFor="let _ of [].constructor(5), let i = index"
+          class="text-sm leading-relaxed cursor-pointer hover:underline hover:text-lime-700">Opción {{ i + 2 }} </li>
+      </ul>
+    </div>
+    <hr>
+    <div>
+      <h2>Ubicación</h2>
+      <input type="search" class="border rounded w-full px-2 outline-offset-0 outline-lime-500"
+        placeholder="Buscar ubicaciones">
+    </div>
+  </div>
+
+  <div class="col-span-6">
+    <!-- Search input -->
+    <div class="flex flex-row px-5 py-6 border-t border-x rounded-t">
+      <input type="search" name="search" id="search" placeholder="Buscar"
+        class="w-full py-5 px-4 h-2 border rounded outline-offset-0  outline-lime-500">
+    </div>
+    <!-- Results -->
+    <div *ngFor="let _ of [].constructor(3)" class="flex border-t border-x px-6 py-6 hover:bg-slate-100 cursor-pointer">
+      <div class="flex flex-col gap-4">
+        <!-- Header -->
+        <div class="flex flex-row gap-2 items-center">
+          <img
+            src="https://www.upwork.com/profile-portraits/c1Xuittenw2sFQBlZhJmvGye5hM8RF6STXYCd-s54nVZKl8if__9wsUp63Nf5a_Yun"
+            alt="avatar" class="w-16 rounded-full">
+          <div>
+            <h1 class="text-lime-600 font-bold">Stella Marys Bogino</h1>
+            <h2 class="text-sm">Agronomía y Dasonomía</h2>
+            <h3 class="text-xs font-light">San Luis</h3>
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div class="flex flex-row gap-1">
+          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nulla quidem adipisci reiciendis nobis mollitia.
+            Minus, ducimus explicabo! Itaque iste dolore illo maiores et molestias saepe, expedita harum rerum sapiente
+            quibusdam!</p>
+          <button class=" text-lime-600 font-bold">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+              <path fill-rule="evenodd"
+                d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z"
+                clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Skills -->
+        <div class="flex flex-row gap-2">
+          <span *ngFor="let _ of [].constructor(5)" class="bg-slate-200 hover:bg-slate-300 rounded-xl px-3">Skill</span>
+        </div>
+      </div>
+    </div>
+    <!-- Pagination -->
+    <div class="flex flex-row px-5 py-6 gap-2 border rounded-b justify-end">
+      <span class="opacity-40 self-center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+          <path fill-rule="evenodd"
+            d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z"
+            clip-rule="evenodd" />
+        </svg>
+      </span>
+      <span class="cursor-pointer font-bold px-1 text-lime-600 border-b-4 border-lime-500">1</span>
+      <span class="cursor-pointer font-bold px-1 hover:underline hover:text-lime-700">2</span>
+      <span class="cursor-pointer font-bold px-1 hover:underline hover:text-lime-700">3</span>
+      <span class="cursor-pointer font-bold px-1 hover:underline hover:text-lime-700">4</span>
+      <span>...</span>
+      <span class="self-center text-lime-600">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+          <path fill-rule="evenodd"
+            d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z"
+            clip-rule="evenodd" />
+        </svg>
+      </span>
+    </div>
+  </div>
+</div>
