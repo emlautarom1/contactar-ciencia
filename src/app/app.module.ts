@@ -9,6 +9,8 @@ import { ProfileComponent } from './component/profile/profile.component';
 import { HomeComponent } from './component/home/home.component';
 import { NotFoundComponent } from './component/not-found/not-found.component';
 import { SearchComponent } from './component/search/search.component';
+import { LoginComponent } from './component/login/login.component';
+import { SignUpComponent } from './component/sign-up/sign-up.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { SearchComponent } from './component/search/search.component';
     ProfileComponent,
     HomeComponent,
     NotFoundComponent,
-    SearchComponent
+    SearchComponent,
+    LoginComponent,
+    SignUpComponent
   ],
   imports: [
     HttpClientModule,
