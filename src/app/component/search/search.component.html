@@ -8,7 +8,7 @@
       <ul class="mx-2">
         <li class="text-sm font-bold leading-relaxed text-lime-600">Opción 1</li>
         <li *ngFor="let _ of [].constructor(5), let i = index"
-          class="text-sm leading-relaxed cursor-pointer hover:underline hover:text-lime-700">Opción {{ i + 2 }} </li>
+          class="text-sm leading-relaxed cursor-pointer hover:underline hover:text-lime-600">Opción {{ i + 2 }} </li>
       </ul>
     </div>
     <hr>
@@ -74,13 +74,13 @@
         <span>Atrás</span>
       </span>
 
-      <span class="cursor-pointer font-bold px-1 text-lime-600 border-b-4 border-lime-600">1</span>
-      <span class="cursor-pointer font-bold px-1 hover:underline hover:text-lime-700">2</span>
-      <span class="cursor-pointer font-bold px-1 hover:underline hover:text-lime-700">3</span>
-      <span class="cursor-pointer font-bold px-1 hover:underline hover:text-lime-700">4</span>
+      <a routerLink="/search" class="font-bold px-1 text-lime-600 border-b-4 border-lime-600">1</a>
+      <a routerLink="/search" class="font-bold px-1 hover:underline hover:text-lime-600">2</a>
+      <a routerLink="/search" class="font-bold px-1 hover:underline hover:text-lime-600">3</a>
+      <a routerLink="/search" class="font-bold px-1 hover:underline hover:text-lime-600">4</a>
       <span>...</span>
 
-      <span class="text-lime-600 px-2 cursor-pointer">
+      <a routerLink="/search" class="text-lime-600 hover:underline px-2">
         <span>Siguiente</span>
         <span class="align-text-bottom inline-block">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
@@ -89,7 +89,7 @@
               clip-rule="evenodd" />
           </svg>
         </span>
-      </span>
+      </a>
 
     </div>
   </div>
