@@ -11,6 +11,7 @@ import { NotFoundComponent } from './component/not-found/not-found.component';
 import { SearchComponent } from './component/search/search.component';
 import { LoginComponent } from './component/login/login.component';
 import { SignUpComponent } from './component/sign-up/sign-up.component';
+import { NavbarComponent } from './component/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { SignUpComponent } from './component/sign-up/sign-up.component';
     NotFoundComponent,
     SearchComponent,
     LoginComponent,
-    SignUpComponent
+    SignUpComponent,
+    NavbarComponent
   ],
   imports: [
     HttpClientModule,
