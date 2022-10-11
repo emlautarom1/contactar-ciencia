@@ -26,7 +26,7 @@
     <h2 class="text-2xl">Áreas de Experticia</h2>
     <div class="grid grid-cols-4 gap-4">
       <a *ngFor="let _ of [].constructor(8); let i = index" routerLink="/search">
-        <div class="bg-slate-50 hover:bg-slate-100 p-8 rounded border">
+        <div class="bg-slate-50 hover:bg-lime-600 hover:text-white p-8 rounded border">
           <h3 class="text-xl capitalize overflow-hidden overflow-ellipsis">Área {{ i + 1 }}</h3>
           <span class="font-light">{{ ((i + 1) * 3597) % 113 }} resultados</span>
         </div>
