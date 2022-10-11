@@ -6,10 +6,10 @@
   <!-- Header -->
   <div class="flex flex-row px-5 py-6 gap-6">
     <img
-      src="https://www.upwork.com/profile-portraits/c1Xuittenw2sFQBlZhJmvGye5hM8RF6STXYCd-s54nVZKl8if__9wsUp63Nf5a_Yun"
+      src="assets/avatar/4.webp"
       alt="avatar" class="w-24 rounded-full">
     <div class="flex flex-col gap-2 justify-center">
-      <h1 class="text-3xl font-bold">Stella Marys Bogino</h1>
+      <h1 class="text-3xl font-bold">Patricia Estela Verdes</h1>
       <div class="flex flex-row">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w4 w-4 text-slate-500">
           <path fill-rule="evenodd"
@@ -52,8 +52,8 @@
                 clip-rule="evenodd" />
             </svg>
             <span class="hover:underline hover:text-lime-600">
-              <a href="mailto:stellabogino@gmail.com">
-                stellabogino@gmail.com
+              <a href="mailto:peverdes@unsl.edu.ar">
+                peverdes@unsl.edu.ar
               </a>
             </span>
           </li>
@@ -68,23 +68,17 @@
     <!-- Main -->
     <div class="col-span-2 border-l">
       <div class="flex flex-col gap-6 px-4 py-6">
-        <h2 class="text-2xl font-bold">Agronomía y Dasonomía</h2>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ut rerum est perferendis qui vel vero fugit, optio
-          voluptates autem eligendi amet, natus omnis accusamus repellendus facere quibusdam cumque aliquam modi?
-          Repellendus nemo debitis incidunt ut repellat numquam? Mollitia facilis, ut a magnam eligendi temporibus magni
-          quae laudantium quas, beatae facere alias. Animi sit natus labore at porro id similique debitis.</p>
+        <h2 class="text-2xl font-bold">Agronomía y Veterinaria</h2>
+        <p>El potencial productivo de los recursos vegetales nativos de la provincia de San Luis es valioso, ya sea por su potencial forrajero, ornamental, medicinal, industrial y/o alimenticio. El aumento de la población, la necesidad de mejorar la calidad de dieta de los habitantes y los crecientes requerimientos de biocombustibles y biomateriales, entre otros aspectos, llevan a una mayor demanda de productos agropecuarios.</p>
       </div>
       <div class="border-t px-4 py-6 flex flex-col gap-4">
-        <h2 class="text-xl font-bold">Experiencia Laboral</h2>
+        <h2 class="text-xl font-bold">Experiencia Profesional</h2>
 
         <div *ngFor="let _ of [].constructor(5); let i = index"
           class="mx-4 border-b last:border-b-0 flex flex-col gap-2 py-4">
-          <h3>Trabajo {{ i + 1 }}</h3>
-          <span class="text-sm font-light">Inicio - Fin</span>
-          <p class="italic">&ldquo;Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusantium vero mollitia
-            dignissimos quam,
-            recusandae error tenetur nihil iste cumque laborum. Optio quae excepturi placeat sint voluptates, repellat
-            illum veniam tempora!&rdquo;
+          <h3>Proyecto {{ 5 - i }}</h3>
+          <span class="text-sm font-light"> {{ 2020 - i * 2  }} - {{ 2022 - i * 2 }}</span>
+          <p class="italic">&ldquo;Herramientas biotecnológicas para la domesticación, caracterización y desarrollo de germoplasma nativo con potencial ornamental, aromático y medicinal de la provincia de San Luis&rdquo;
           </p>
         </div>
 
