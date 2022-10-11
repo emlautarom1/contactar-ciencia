@@ -28,6 +28,7 @@
     "@angular-devkit/build-angular": "^14.2.5",
     "@angular/cli": "^14.2.5",
     "@angular/compiler-cli": "^14.2.5",
+    "@tailwindcss/line-clamp": "^0.4.2",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
     "autoprefixer": "^10.4.12",
