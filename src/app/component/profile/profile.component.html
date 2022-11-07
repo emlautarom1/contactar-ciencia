@@ -5,18 +5,16 @@
 <div class="container mx-auto mb-4 border rounded">
   <!-- Header -->
   <div class="flex flex-row px-5 py-6 gap-6">
-    <img
-      src="assets/avatar/4.webp"
-      alt="avatar" class="w-24 rounded-full">
+    <img [src]="profile.picture" alt="avatar" class="w-24 rounded-full">
     <div class="flex flex-col gap-2 justify-center">
-      <h1 class="text-3xl font-bold">Patricia Estela Verdes</h1>
+      <h1 class="text-3xl font-bold">{{ profile.name }}</h1>
       <div class="flex flex-row">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w4 w-4 text-slate-500">
           <path fill-rule="evenodd"
             d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z"
             clip-rule="evenodd" />
         </svg>
-        <span>San Luis</span>
+        <span>{{ profile.location.display_name }}</span>
       </div>
     </div>
   </div>
@@ -38,9 +36,7 @@
                 clip-rule="evenodd" />
             </svg>
             <span class="hover:underline hover:text-lime-600">
-              <a href="tel:2664032968">
-                266-403-2968
-              </a>
+              <a [href]="'tel:'+profile.contact.phone">{{ profile.contact.phone }}</a>
             </span>
           </li>
           <!-- Email -->
@@ -52,9 +48,18 @@
                 clip-rule="evenodd" />
             </svg>
             <span class="hover:underline hover:text-lime-600">
-              <a href="mailto:peverdes@unsl.edu.ar">
-                peverdes@unsl.edu.ar
-              </a>
+              <a [href]="'mailto:'+profile.contact.email">{{ profile.contact.email }}</a>
+            </span>
+          </li>
+          <!-- URLs -->
+          <li *ngFor="let url of profile.contact.urls" class="flex flex-row items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+              stroke="currentColor" class="w-4 h-4 text-lime-600">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+            </svg>
+            <span class="hover:underline hover:text-lime-600">
+              <a [href]="url">{{ url }}</a>
             </span>
           </li>
         </ul>
@@ -62,24 +67,27 @@
       <!-- Map -->
       <div class="flex flex-col gap-2 border-b p-4">
         <h2 class="text-xl font-bold mb-2">Ubicación</h2>
-        <google-map *ngIf="apiStatus$ | async" width="100%" height="200" [options]="mapOptions"></google-map>
+        <google-map *ngIf="apiStatus$ | async" width="100%" height="200" [options]="mapOptions"
+          [center]="profile.location.coordinates"></google-map>
       </div>
     </div>
     <!-- Main -->
     <div class="col-span-2 border-l">
       <div class="flex flex-col gap-6 px-4 py-6">
-        <h2 class="text-2xl font-bold">Agronomía y Veterinaria</h2>
-        <p>El potencial productivo de los recursos vegetales nativos de la provincia de San Luis es valioso, ya sea por su potencial forrajero, ornamental, medicinal, industrial y/o alimenticio. El aumento de la población, la necesidad de mejorar la calidad de dieta de los habitantes y los crecientes requerimientos de biocombustibles y biomateriales, entre otros aspectos, llevan a una mayor demanda de productos agropecuarios.</p>
+        <h2 class="text-2xl font-bold">{{ profile.specialization }}</h2>
+        <p>{{ profile.cover }}</p>
+        <div class="flex flex-row gap-2">
+          <span *ngFor="let s of profile.skills"
+            class="bg-slate-200 hover:bg-slate-300 border rounded-xl px-3">{{s}}</span>
+        </div>
       </div>
       <div class="border-t px-4 py-6 flex flex-col gap-4">
         <h2 class="text-xl font-bold">Experiencia Profesional</h2>
 
-        <div *ngFor="let _ of [].constructor(5); let i = index"
-          class="mx-4 border-b last:border-b-0 flex flex-col gap-2 py-4">
-          <h3>Proyecto {{ 5 - i }}</h3>
-          <span class="text-sm font-light"> {{ 2020 - i * 2  }} - {{ 2022 - i * 2 }}</span>
-          <p class="italic">&ldquo;Herramientas biotecnológicas para la domesticación, caracterización y desarrollo de germoplasma nativo con potencial ornamental, aromático y medicinal de la provincia de San Luis&rdquo;
-          </p>
+        <div *ngFor="let w of profile.work" class="mx-4 border-b last:border-b-0 flex flex-col gap-2 py-4">
+          <h3>{{ w.title }} </h3>
+          <span class="text-sm font-light">{{ w.start_date }} &ndash; {{ w.end_date }}</span>
+          <p class="italic">&ldquo;{{ w.description }}&rdquo;</p>
         </div>
 
       </div>
