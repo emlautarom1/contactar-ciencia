@@ -6,7 +6,7 @@ Esas pestañas desplegables solo aparecerían al principio si o las cargamos ini
 1. CIENCIAS AGRARIAS, INGENIERÍAS Y MATERIALES DESARROLLO TECNOLÓGICO Y SOCIAL
   - Ciencias Agrarias
   - Ingeniería Civil
-  - Eléctrica
+  - Ingeniería Eléctrica
   - Mecánica e Ingenierías Relacionadas
   - Hábitat y Diseño
   - Informática y Comunicaciones
@@ -56,6 +56,6 @@ Deberían cargar:
 - Etiquetas (las que se desprenden de grandes areas y disciplinas por default) y luego otras que son muy específicas y que tengan (obligatorio) al menos cuatro
 - Asignar un campo para haya algo asi como un Lado B (otros intereses de científicxs)
 - Experiencia profesional
-- Campo para cargar trabajos, participaciones en proyectos,  Manuscritos y que tenga que poner titulo o tema año y link
-- Campo para cargar referencias a notas y entrevistas: Titulo o tema, Año y link
+- Campo para cargar trabajos, participaciones en proyectos, manuscritos y que tenga que poner titulo o tema año y link
+- Campo para cargar referencias a notas y entrevistas: Titulo o tema, Año y link.
 - Información de contacto: Correo electrónico institucional, Teléfono, Redes, Páginas personales
