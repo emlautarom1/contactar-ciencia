@@ -2,14 +2,15 @@
   <app-navbar></app-navbar>
 </div>
 
-<div class="container mx-auto max-w-screen-md flex flex-col gap-8">
+<div class="container mx-auto max-w-screen-md flex flex-col gap-8 px-2">
 
   <!-- Search -->
   <div class="py-16">
     <div class="flex flex-col border rounded px-8 py-6 gap-4">
       <div>
         <h1 class="text-4xl text-lime-600 font-bold">Tu Entrevistadx</h1>
-        <h2 class="text-2xl font-light">Encontrá expertxs de todas las áreas en <span class="font-normal">Argentina</span>
+        <h2 class="text-2xl font-light">Encontrá expertxs de todas las áreas en <span
+            class="font-normal">Argentina</span>
         </h2>
       </div>
       <form action="" method="post" class="flex flex-row gap-2">
@@ -20,17 +21,19 @@
         <button type="submit" routerLink="/search"
           class="px-6 bg-lime-600 hover:bg-lime-700 font-bold rounded text-white">Buscar</button>
       </form>
-      <p class="font-light">También puede consultar la totalidad de nuestro <a routerLink="/search" class="font-bold text-lime-600 hover:underline">índice</a></p>
+      <p class="font-light">También puede consultar la totalidad de nuestro <a routerLink="/search"
+          class="font-bold text-lime-600 hover:underline">índice</a></p>
     </div>
   </div>
 
   <!-- Grid -->
   <div class="flex flex-col gap-4">
-    <h2 class="text-2xl">Áreas de Experticia</h2>
-    <div class="grid grid-cols-4 gap-4">
-      <a *ngFor="let _ of [].constructor(8); let i = index" routerLink="/search">
-        <div class="bg-slate-50 hover:bg-lime-600 hover:text-white p-8 rounded border">
-          <h3 class="text-xl capitalize overflow-hidden overflow-ellipsis">Área {{ i + 1 }}</h3>
+    <h2 class="text-2xl">Ciencias</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <a *ngFor="let c of ciences; let i = index" routerLink="/search">
+        <div
+          class="bg-slate-50 h-32 flex flex-col justify-center hover:bg-lime-600 hover:text-white px-8 rounded border">
+          <h3 class="text-xl overflow-hidden overflow-ellipsis">{{ c.title }}</h3>
           <span class="font-light">{{ ((i + 1) * 3597) % 113 }} resultados</span>
         </div>
       </a>
@@ -38,8 +41,7 @@
   </div>
 
   <!-- Register -->
-  <p class="text-center">¿Interesado en ser parte? <a routerLink="/signup"
-      class="font-bold text-lime-600 hover:underline">Registrarse</a>
+  <p class="text-center mb-4">¿Interesado en ser parte? <a routerLink="/signup" class="font-bold text-lime-600 hover:underline">Registrarse</a>
   </p>
 
 </div>
