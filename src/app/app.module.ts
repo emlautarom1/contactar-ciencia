@@ -22,7 +22,7 @@ import { NavbarComponent } from './component/navbar/navbar.component';
     SearchComponent,
     LoginComponent,
     SignUpComponent,
-    NavbarComponent
+    NavbarComponent,
   ],
   imports: [
     HttpClientModule,

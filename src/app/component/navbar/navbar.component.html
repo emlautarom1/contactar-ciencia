@@ -1,7 +1,19 @@
 <nav class="flex flex-row justify-between border-b-2 border-lime-600 py-4 px-2">
   <a routerLink="/" class="text-xl font-bold  text-lime-600">Tu Entrevistadx</a>
   <div class="flex flex-row gap-2">
-    <a routerLink="/login" class="hover:underline hover:text-lime-600">Iniciar Sesión</a>
-    <a routerLink="/signup" class="bg-lime-600 hover:bg-lime-700 text-white  rounded px-3">Registrarse</a>
+    <ng-container *ngIf="currentUser$ | async as user; else logIn">
+      <a routerLink="/" class="bg-lime-600 hover:bg-lime-700  text-white rounded px-3">{{ user.name }}</a>
+      <button (click)="logOut()" class="text-lime-600 hover:text-lime-700">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+          class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+        </svg>
+      </button>
+    </ng-container>
+    <ng-template #logIn>
+      <a routerLink="/login" class="hover:underline hover:text-lime-600">Iniciar Sesión</a>
+      <a routerLink="/signup" class="bg-lime-600 hover:bg-lime-700 text-white rounded px-3">Registrarse</a>
+    </ng-template>
   </div>
 </nav>
