@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { SessionService } from 'src/app/service/session.service';
 
@@ -8,7 +9,10 @@ import { SessionService } from 'src/app/service/session.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  constructor(private session: SessionService) { }
+  constructor(
+    private session: SessionService,
+    private router: Router
+  ) { }
 
   get currentUser$() {
     return this.session.currentUser$;
@@ -16,5 +20,6 @@ export class NavbarComponent {
 
   logOut() {
     this.session.logOut();
+    this.router.navigate(["/"])
   }
 }

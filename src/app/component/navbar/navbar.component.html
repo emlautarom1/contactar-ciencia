@@ -2,7 +2,7 @@
   <a routerLink="/" class="text-xl font-bold  text-lime-600">Tu Entrevistadx</a>
   <div class="flex flex-row gap-2">
     <ng-container *ngIf="currentUser$ | async as user; else logIn">
-      <a routerLink="/" class="bg-lime-600 hover:bg-lime-700  text-white rounded px-3">{{ user.name }}</a>
+      <a routerLink="/settings" class="bg-lime-600 hover:bg-lime-700  text-white rounded px-3">{{ user.name }}</a>
       <button (click)="logOut()" class="text-lime-600 hover:text-lime-700">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
           class="w-6 h-6">
