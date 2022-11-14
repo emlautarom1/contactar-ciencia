@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
 import { SessionService } from 'src/app/service/session.service';
 
 @Component({
