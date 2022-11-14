@@ -12,6 +12,7 @@ import { SearchComponent } from './component/search/search.component';
 import { LoginComponent } from './component/login/login.component';
 import { SignUpComponent } from './component/sign-up/sign-up.component';
 import { NavbarComponent } from './component/navbar/navbar.component';
+import { SettingsComponent } from './component/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { NavbarComponent } from './component/navbar/navbar.component';
     LoginComponent,
     SignUpComponent,
     NavbarComponent,
+    SettingsComponent,
   ],
   imports: [
     HttpClientModule,

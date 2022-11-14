@@ -6,6 +6,7 @@ import { NotFoundComponent } from './component/not-found/not-found.component';
 import { SearchComponent } from './component/search/search.component';
 import { SignUpComponent } from './component/sign-up/sign-up.component';
 import { LoginComponent } from './component/login/login.component';
+import { SettingsComponent } from './component/settings/settings.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: "login",
     component: LoginComponent
+  },
+  {
+    path: "settings",
+    component: SettingsComponent
   },
   {
     path: "**",
