@@ -51,7 +51,7 @@
       <form class="flex flex-row justify-between items-center" (submit)="addUrl(url.value)">
         <input type="text" name="url" id="url" #url class="w-full px-2 py-1 mr-2 border rounded outline-lime-600">
         <button type="submit"
-          class="text-sm bg-lime-600 hover:bg-lime:700 text-white py-1 border rounded px-4">Añadir</button>
+          class="text-sm bg-lime-600 hover:bg-lime-700 text-white py-1 border rounded px-4">Añadir</button>
       </form>
       <ul>
         <li *ngFor="let url of profile.contact.urls" class="flex flex-row justify-between items-center">
@@ -71,7 +71,7 @@
       <div class="flex flex-row gap-2 w-full items-center">
         <label for="job_start">Inicio</label>
         <input type="date" name="job_start" id="job_start" class="px-2 py-1 border rounded outline-lime-600">
-        <label for="job_start">Fin</label>
+        <label for="job_end">Fin</label>
         <input type="date" name="job_end" id="job_end" class="px-2 py-1 border rounded outline-lime-600">
       </div>
       <label for="job_description">Descripción</label>
