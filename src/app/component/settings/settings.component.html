@@ -14,6 +14,10 @@
     <input type="email" name="email" id="email" [value]="profile.contact.email"
       class="px-2 py-1 border rounded outline-lime-600">
 
+    <label for="location">Ubicación</label>
+      <input type="text" name="location" id="location" [value]="profile.location.display_name"
+        class="px-2 py-1 border rounded outline-lime-600">
+
     <label for="cover">Biografía</label>
     <textarea name="cover" id="cover" [value]="profile.cover" cols="30" rows="5"
       class="p-2 border rounded outline-lime-600"></textarea>
