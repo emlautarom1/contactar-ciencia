@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SessionService } from 'src/app/service/session.service';
 import { ValuesService } from 'src/app/service/values.service';
 
 @Component({
@@ -7,12 +8,15 @@ import { ValuesService } from 'src/app/service/values.service';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-  urls = ["http://twitter.com/peverdes"];
-  work = Array(2).fill({ title: "Mi Proyecto", start_date: "01/2022", end_date: "08/2022", description: "Herramientas biotecnológicas para la domesticación, caracterización y desarrollo de germoplasma nativo con potencial ornamental, aromático y medicinal de la provincia de San Luis" })
+  profile!: any
 
-  constructor(private values: ValuesService) { }
+  constructor(
+    private values: ValuesService,
+    public session: SessionService
+  ) { }
 
   ngOnInit(): void {
+    this.profile = this.session.profile;
   }
 
   get sciences() {
@@ -24,14 +28,14 @@ export class SettingsComponent implements OnInit {
   }
 
   addUrl(url: string) {
-    this.urls = [url, ...this.urls];
+    this.profile.urls = [url, ...this.profile.urls];
   }
 
   removeUrl(url: string) {
-    this.urls = this.urls.filter(u => u != url);
+    this.profile.urls = this.profile.urls.filter((u: any) => u != url);
   }
 
   removeWork(work: any) {
-    this.work = this.work.filter(w => w != work);
+    this.profile.work = this.profile.work.filter((w: any) => w != work);
   }
 }
