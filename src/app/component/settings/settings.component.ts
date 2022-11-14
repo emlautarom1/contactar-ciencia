@@ -26,16 +26,4 @@ export class SettingsComponent implements OnInit {
   get specializations() {
     return this.values.sciences[0].specializations;
   }
-
-  addUrl(url: string) {
-    this.profile.urls = [url, ...this.profile.urls];
-  }
-
-  removeUrl(url: string) {
-    this.profile.urls = this.profile.urls.filter((u: any) => u != url);
-  }
-
-  removeWork(work: any) {
-    this.profile.work = this.profile.work.filter((w: any) => w != work);
-  }
 }
