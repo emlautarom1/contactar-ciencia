@@ -8,11 +8,11 @@
     <h1 class="text-xl">Filtrar Por</h1>
     <hr>
     <div>
-      <h2>Categoría</h2>
+      <h2>Ciencias</h2>
       <ul class="mx-2">
-        <li class="text-sm font-bold leading-relaxed text-lime-600">Opción 1</li>
-        <li *ngFor="let _ of [].constructor(5), let i = index"
-          class="text-sm leading-relaxed cursor-pointer hover:underline hover:text-lime-600">Opción {{ i + 2 }} </li>
+        <li *ngFor="let c of sciences"
+          class="text-sm leading-relaxed cursor-pointer hover:underline hover:text-lime-600">{{ c.title }}
+        </li>
       </ul>
     </div>
     <hr>

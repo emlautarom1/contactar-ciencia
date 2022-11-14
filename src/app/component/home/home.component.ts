@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
   constructor(private values: ValuesService) { }
 
   ngOnInit(): void {
-    this.ciences = this.values.ciences;
+    this.ciences = this.values.sciences;
   }
 
 }

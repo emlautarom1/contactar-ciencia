@@ -20,11 +20,11 @@ export class SettingsComponent implements OnInit {
   }
 
   get sciences() {
-    return this.values.ciences.map(cience => cience.title);
+    return this.values.sciences.map(cience => cience.title);
   }
 
   get specializations() {
-    return this.values.ciences[0].specializations;
+    return this.values.sciences[0].specializations;
   }
 
   addUrl(url: string) {

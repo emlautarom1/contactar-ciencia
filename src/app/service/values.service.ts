@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class ValuesService {
   constructor() { }
 
-  ciences = [
+  sciences = [
     {
       title: "Agrarias, Ingenierías, Desarrollo Tecnológico y Social",
       specializations: [
