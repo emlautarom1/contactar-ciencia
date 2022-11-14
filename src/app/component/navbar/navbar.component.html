@@ -1,5 +1,5 @@
 <nav class="flex flex-row justify-between border-b-2 border-lime-600 py-4 px-2">
-  <a routerLink="/" class="text-xl font-bold  text-lime-600">Tu Entrevistadx</a>
+  <a routerLink="/" class="text-xl font-bold  text-lime-600">Contact.ar Ciencia</a>
   <div class="flex flex-row gap-2">
     <ng-container *ngIf="currentUser$ | async as user; else logIn">
       <a routerLink="/settings" class="bg-lime-600 hover:bg-lime-700  text-white rounded px-3">{{ user.name }}</a>
