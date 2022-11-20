@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Profile } from 'src/app/model/profile';
 import { SessionService } from 'src/app/service/session.service';
 import { ValuesService } from 'src/app/service/values.service';
 
@@ -8,7 +9,7 @@ import { ValuesService } from 'src/app/service/values.service';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-  profile!: any
+  profile!: Profile
 
   constructor(
     private values: ValuesService,

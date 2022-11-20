@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Profile } from 'src/app/model/profile';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
   private _currentUser$: BehaviorSubject<any> = new BehaviorSubject(undefined);
-  profile = {
+  profile: Profile = {
     name: "Patricia Estela Verdes",
     picture: "assets/avatar/4.webp",
     contact: {
@@ -15,7 +16,7 @@ export class SessionService {
       urls: ["http://twitter.com/peverdes"]
     },
     location: {
-      display_name: "San Luis",
+      name: "San Luis",
       coordinates: { lat: -33.300, lng: -66.335 }
     },
     cience: "Agrarias, Ingenierías, Desarrollo Tecnológico y Social",
