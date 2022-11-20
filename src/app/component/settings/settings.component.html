@@ -2,7 +2,7 @@
   <app-navbar></app-navbar>
 </div>
 
-<div class="container mx-auto mb-4 flex flex-col gap-8">
+<div class="flex flex-col gap-8 max-w-screen-lg mx-auto mb-4">
 
   <div class="flex flex-col gap-2 p-4 border rounded">
     <h2 class="text-xl font-bold mb-4">Acerca de</h2>
@@ -15,8 +15,8 @@
       class="px-2 py-1 border rounded outline-lime-600">
 
     <label for="location">Ubicación</label>
-      <input type="text" name="location" id="location" [value]="profile.location.name"
-        class="px-2 py-1 border rounded outline-lime-600">
+    <input type="text" name="location" id="location" [value]="profile.location.name"
+      class="px-2 py-1 border rounded outline-lime-600">
 
     <label for="cover">Biografía</label>
     <textarea name="cover" id="cover" [value]="profile.cover" cols="30" rows="5"
@@ -42,7 +42,8 @@
       <option *ngFor="let s of specializations" [value]="s">{{ s }}</option>
     </select>
 
-    <label for="skills">Habilidades y/o Capacidades<span class="text-sm italic pl-2">(Al menos 4, separadas por comas)</span></label>
+    <label for="skills">Habilidades y/o Capacidades<span class="text-sm italic pl-2">(Al menos 4, separadas por
+        comas)</span></label>
     <input type="text" name="skills" id="skills" [value]="profile.skills.join(', ')"
       class="px-2 py-1 border rounded outline-lime-600">
   </div>
