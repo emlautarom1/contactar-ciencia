@@ -7,6 +7,7 @@ import { SearchComponent } from './component/search/search.component';
 import { SignUpComponent } from './component/sign-up/sign-up.component';
 import { LoginComponent } from './component/login/login.component';
 import { SettingsComponent } from './component/settings/settings.component';
+import { ParticipateComponent } from './component/participate/participate.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,10 @@ const routes: Routes = [
   {
     path: "profile/:id",
     component: ProfileComponent
+  },
+  {
+    path: "participate",
+    component: ParticipateComponent
   },
   {
     path: "signup",

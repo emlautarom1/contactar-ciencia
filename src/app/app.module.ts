@@ -13,6 +13,7 @@ import { LoginComponent } from './component/login/login.component';
 import { SignUpComponent } from './component/sign-up/sign-up.component';
 import { NavbarComponent } from './component/navbar/navbar.component';
 import { SettingsComponent } from './component/settings/settings.component';
+import { ParticipateComponent } from './component/participate/participate.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { SettingsComponent } from './component/settings/settings.component';
     SignUpComponent,
     NavbarComponent,
     SettingsComponent,
+    ParticipateComponent,
   ],
   imports: [
     HttpClientModule,
