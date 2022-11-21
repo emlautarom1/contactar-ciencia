@@ -33,8 +33,15 @@ export class SessionService {
     return this._currentUser$.asObservable();
   }
 
-  logIn() {
-    this._currentUser$.next(this.profile);
+  authenticate(email: string, password: string) {
+    if (email != 'emlautarom1@gmail.com' || password != '12345678') {
+      return undefined;
+    }
+    return this.profile;
+  }
+
+  logIn(profile: Profile) {
+    this._currentUser$.next(profile);
   }
 
   logOut() {
