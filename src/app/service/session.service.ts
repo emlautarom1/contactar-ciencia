@@ -7,6 +7,7 @@ import { Profile } from 'src/app/model/profile';
 })
 export class SessionService {
   private _currentUser$: BehaviorSubject<any> = new BehaviorSubject(undefined);
+
   profile: Profile = {
     name: "Patricia Estela Verdes",
     picture: "assets/avatar/4.webp",
@@ -26,22 +27,18 @@ export class SessionService {
     work: Array(3).fill({ title: "Mi Proyecto", start_date: "01/2022", end_date: "08/2022", description: "Herramientas biotecnológicas para la domesticación, caracterización y desarrollo de germoplasma nativo con potencial ornamental, aromático y medicinal de la provincia de San Luis" })
   }
 
-
   constructor() { }
 
   get currentUser$() {
     return this._currentUser$.asObservable();
   }
 
-  authenticate(email: string, password: string) {
-    if (email != 'emlautarom1@gmail.com' || password != '12345678') {
+  logIn(email: string, password: string) {
+    if (password == '00000000') {
       return undefined;
     }
+    this._currentUser$.next(this.profile);
     return this.profile;
-  }
-
-  logIn(profile: Profile) {
-    this._currentUser$.next(profile);
   }
 
   logOut() {
