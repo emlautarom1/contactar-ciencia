@@ -1,25 +1,28 @@
-<div class="container flex mx-auto max-w-screen-md items-center h-screen gap-8">
-  <div class="flex w-3/5 drop-shadow">
-    <img src="assets/faces.jpg" class="w-full" alt="Avatars">
+<div class="flex flex-col h-screen bg-background-dark text-white ">
+  <!-- Header -->
+  <!-- TODO: Change this image -->
+  <div class="bg-background-dark px-12 py-8">
+    <img src="assets/logo-dark.png" alt="Contact.ar Ciencia">
   </div>
-  <div class="flex flex-col w-2/5 gap-4">
-    <!-- Form -->
-    <div class="flex flex-col gap-2 border rounded p-4 bg-white">
-      <h1 class="font-bold text-xl text-center">Contact.ar Ciencia</h1>
-      <p *ngIf="logInFailed" class="text-red-600 text-sm">El usuario o contraseña son inválidos</p>
-      <form [formGroup]="logInForm" (ngSubmit)="onLogIn()" class="flex flex-col gap-2">
-        <input type="email" name="email" id="email" placeholder="Correo electrónico" formControlName="email"
-          class="text-sm rounded border p-2 outline-lime-600">
-        <input type="text" name="password" id="password" placeholder="Contraseña" formControlName="password"
-          class="text-sm rounded border p-2 outline-lime-600">
-        <button type="submit" [disabled]="logInForm.invalid" class="bg-lime-600 text-white font-bold rounded border py-1 disabled:bg-slate-200 disabled:text-slate-400">Iniciar
-          Sesión</button>
-      </form>
-    </div>
 
+  <div class="rounder"></div>
+
+  <div class="bg-background-light px-16 h-full">
+    <!-- Form -->
+    <form [formGroup]="logInForm" (ngSubmit)="onLogIn()" class="flex flex-col gap-4">
+      <input type="email" name="email" id="email" placeholder="Email" formControlName="email"
+        class="border-b-2 border-white bg-transparent rounded-t outline-white p-2">
+      <input type="password" name="password" id="password" placeholder="Contraseña" formControlName="password"
+        class="border-b-2 border-white bg-transparent rounded-t outline-white p-2">
+      <div class="text-end">
+        <a href="" class="text-end text-sm text-teal-500">Olvidé mi contraseña</a>
+      </div>
+      <button type="submit" [disabled]="logInForm.invalid"
+        class="button-shadow text-black bg-teal-500 text-xl font-bold rounded-full py-4 my-8">Acceder</button>
+    </form>
     <!-- Sign-up -->
-    <div class="border rounded p-4 bg-white text-center">
-      <p>¿No tienes una cuenta? <a routerLink="/signup" class="font-bold text-lime-600 hover:underline">Registrarse</a>
+    <div class="text-center">
+      <p>¿No tienes una cuenta? <a routerLink="/signup" class="underline hover:text-teal-500">Registrarse</a>
       </p>
     </div>
   </div>
