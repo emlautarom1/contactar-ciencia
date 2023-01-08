@@ -8,5 +8,5 @@
 }
 
 .button-shadow {
-  filter: drop-shadow(0px 10px 1px theme('colors.teal.500' / 15%));
+  filter: drop-shadow(0px 10px 1px theme('colors.primary.light' / 15%));
 }
