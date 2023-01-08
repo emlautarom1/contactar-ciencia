@@ -1,21 +1,38 @@
-<div class="container flex flex-col mx-auto max-w-screen-md items-center justify-center h-screen">
-  <div class="border rounded p-16">
-    <div class="mb-8">
-      <h1 class="text-center text-3xl">Ser parte de <span class="font-bold text-lime-600">Contact.ar Ciencia</span></h1>
+<div class="flex flex-col h-screen bg-primary-medium text-white">
+
+  <div class="bg-primary-medium px-12 pt-10">
+    <img src="assets/logo-light.png" alt="Contact.ar Ciencia">
+  </div>
+
+  <div class="relative h-24 overflow-hidden">
+    <div class="curve"></div>
+  </div>
+
+  <div class="flex flex-col gap-8 p-8 h-full bg-background-light">
+    <div class="flex flex-col gap-2 text-center rounded-xl bg-background-dark p-4">
+      <h2 class="text-xl font-bold">
+        Investigadores y Periodístas
+      </h2>
+      <p class="font-light">
+        Puede consultar nuestro índice de expertos en una multitud de áreas científicas y
+        especializaciones ubicadoes en diferentes regiones del país.
+      </p>
+      <a routerLink="/search" class="bg-primary-light text-black rounded p-2">
+        Visitar el Índice
+      </a>
     </div>
-    <div class="flex flex-row gap-4">
-      <div class="flex flex-col gap-4 items-center px-4 border-r-2">
-        <h2 class="text-xl font-bold">Investigadores y Periodístas</h2>
-        <p class="text-center">Puede consultar nuestro índice de expertos en una multitud de áreas científicas y
-          especializaciones ubicadoes en diferentes regiones del país.</p>
-        <a routerLink="/search" class="bg-lime-600 hover:bg-lime-700 text-white rounded px-4 py-2">Visitar el Índice</a>
-      </div>
-      <div class="flex flex-col gap-4 items-center px-4">
-        <h2 class="text-xl font-bold">Científicos y Profesionales</h2>
-        <p class="text-center">Si usted es un científico y/o profesional y quiere ofrecer sus conocimientos a la
-          comunidad, lo invitamos a que sea parte de este proyecto.</p>
-        <a routerLink="/signup" class="bg-lime-600 hover:bg-lime-700 text-white rounded px-4 py-2">Registrarse</a>
-      </div>
+
+    <div class="flex flex-col gap-2 text-center rounded-xl bg-background-dark p-4">
+      <h2 class="text-xl font-bold">
+        Científicos y Profesionales
+      </h2>
+      <p class="font-light">
+        Si usted es un científico y/o profesional y quiere ofrecer sus conocimientos a la
+        comunidad, lo invitamos a que sea parte de este proyecto.
+      </p>
+      <a routerLink="/signup" class="bg-primary-light text-black rounded p-2">
+        Registrarse
+      </a>
     </div>
   </div>
 </div>
