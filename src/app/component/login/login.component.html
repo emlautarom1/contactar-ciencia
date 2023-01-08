@@ -5,25 +5,32 @@
     <img src="assets/logo-dark.png" alt="Contact.ar Ciencia">
   </div>
 
-  <div class="rounder"></div>
+  <div class="relative h-24 overflow-hidden">
+    <div class="curve"></div>
+  </div>
 
   <div class="bg-background-light px-16 h-full">
     <!-- Form -->
-    <form [formGroup]="logInForm" (ngSubmit)="onLogIn()" class="flex flex-col gap-4">
+    <form [formGroup]="logInForm" (ngSubmit)="onLogIn()" class="flex flex-col gap-4 mt-16">
       <input type="email" name="email" id="email" placeholder="Email" formControlName="email"
         class="border-b-2 border-white bg-transparent rounded-t outline-white p-2">
+
       <input type="password" name="password" id="password" placeholder="Contraseña" formControlName="password"
         class="border-b-2 border-white bg-transparent rounded-t outline-white p-2">
+
       <div class="text-end">
         <a href="" class="text-end text-sm text-teal-500">Olvidé mi contraseña</a>
       </div>
+
       <button type="submit" [disabled]="logInForm.invalid"
         class="button-shadow text-black bg-primary-light text-xl font-bold rounded-full py-4 my-8">Acceder</button>
     </form>
-    <!-- Sign-up -->
+
+    <!-- Login -->
     <div class="text-center">
       <p>¿No tienes una cuenta? <a routerLink="/signup" class="underline hover:text-primary-light">Registrarse</a>
       </p>
     </div>
+
   </div>
 </div>
