@@ -1,47 +1,41 @@
-<div class="container mx-auto mb-16">
-  <app-navbar></app-navbar>
-</div>
+<app-navbar></app-navbar>
 
-<div class="container mx-auto max-w-screen-md flex flex-col gap-8 px-2">
-
+<div class="bg-background-dark text-white">
   <!-- Search -->
-  <div class="py-16">
-    <div class="flex flex-col border rounded px-8 py-6 gap-4">
-      <div>
-        <h1 class="text-4xl text-lime-600 font-bold">Contact.ar Ciencia</h1>
-        <h2 class="text-2xl font-light">Contactá expertxs de todas las áreas en <span
-            class="font-normal">Argentina</span>
-        </h2>
-      </div>
-      <form action="" method="post" class="flex flex-row gap-2">
-        <input type="search" placeholder="Experticia"
-          class="px-2 py-1 outline-offset-0 outline-lime-600 border rounded w-3/5">
-        <input type="search" placeholder="Ubicación"
-          class="px-2 py-1 outline-offset-0 outline-lime-600 border rounded w-2/5">
-        <button type="submit" routerLink="/search"
-          class="px-6 bg-lime-600 hover:bg-lime-700 font-bold rounded text-white">Buscar</button>
-      </form>
-      <p class="font-light">También puede consultar la totalidad de nuestro <a routerLink="/search"
-          class="font-bold text-lime-600 hover:underline">índice</a></p>
+  <div class="flex flex-col px-8 py-6 gap-4">
+    <div>
+      <img src="assets/logo-dark.png" alt="Contact.ar Ciencia">
+      <h2 class="text-xl font-light text-center">Contactá expertxs de todas las áreas en <span
+          class="font-normal">Argentina</span>
+      </h2>
     </div>
+    <form action="" method="post" class="flex flex-row justify-center gap-2">
+      <input type="search" placeholder="Experticia" class="border-b-2 border-white rounded outline-white p-2">
+      <button type="submit" routerLink="/search"
+        class="bg-primary-light font-bold rounded text-black px-6">Buscar</button>
+    </form>
   </div>
-
-  <!-- Grid -->
-  <div class="flex flex-col gap-4">
-    <h2 class="text-2xl">Ciencias</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <a *ngFor="let c of ciences; let i = index" routerLink="/search">
-        <div
-          class="bg-slate-50 h-32 flex flex-col justify-center hover:bg-lime-600 hover:text-white px-8 rounded border">
-          <h3 class="text-xl overflow-hidden overflow-ellipsis">{{ c.title }}</h3>
-          <span class="font-light">{{ ((i + 1) * 3597) % 113 }} resultados</span>
-        </div>
-      </a>
-    </div>
+  <!-- Curves -->
+  <div class="curves">
+    <div class="light-curve"></div>
+    <div class="medium-curve"></div>
   </div>
-
-  <!-- Register -->
-  <p class="text-center mb-4">¿Interesado en ser parte? <a routerLink="/participate" class="font-bold text-lime-600 hover:underline">Comienze aquí</a>
-  </p>
-
 </div>
+
+<!-- Content -->
+<div class="flex flex-col gap-4 px-8 bg-primary-medium text-white">
+  <!-- Ciences -->
+  <a *ngFor="let c of ciences; let i = index" routerLink="/search">
+    <div class="bg-background-dark rounded-xl p-4">
+      <h3 class="font-bold">{{ c.title }}</h3>
+      <p class="text-end font-light">{{ ((i + 1) * 3597) % 113 }} resultados</p>
+    </div>
+  </a>
+</div>
+
+<footer class="py-8 bg-primary-medium text-white">
+  <!-- Register -->
+  <p class="text-center">¿Interesado en ser parte? <a routerLink="/participate" class="font-bold underline">Comienze
+      aquí</a>
+  </p>
+</footer>
