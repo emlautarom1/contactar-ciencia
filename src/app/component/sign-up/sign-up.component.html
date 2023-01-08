@@ -1,29 +1,36 @@
-<div class="container flex mx-auto max-w-screen-md items-center h-screen gap-8">
-  <div class="flex w-3/5 drop-shadow">
-    <img src="assets/faces2.jpg" class="w-full" alt="Avatars">
+<div class="flex flex-col h-screen bg-background-dark text-white">
+  <!-- Header -->
+  <!-- TODO: Change this image -->
+  <div class="bg-background-dark px-12 py-8">
+    <img src="assets/logo-dark.png" alt="Contact.ar Ciencia">
   </div>
-  <div class="flex flex-col w-2/5 gap-4">
-    <!-- Form -->
-    <div class="flex flex-col gap-2 border rounded p-4  bg-white ">
-      <h1 class="font-bold text-xl text-center">Contact.ar Ciencia</h1>
-      <p class="text-red-600 text-sm hidden">El correo electrónico introducido se encuentra en uso</p>
-      <form action="" method="post" class="flex flex-col gap-2">
-        <input type="text" name="" id="" placeholder="Nombre completo"
-        class="text-sm rounded border p-2 outline-lime-600">
-        <input type="tel" name="" id="" placeholder="Teléfono"
-          class="text-sm rounded border p-2 outline-lime-600">
-        <input type="email" name="" id="" placeholder="Correo electrónico"
-          class="text-sm rounded border p-2 outline-lime-600">
-        <input type="password" name="" id="" placeholder="Contraseña"
-          class="text-sm rounded border p-2 outline-lime-600">
-        <button type="submit" routerLink="/" class="bg-lime-600 text-white font-bold rounded border py-1">Registrarse</button>
-      </form>
-    </div>
 
-    <!-- Sign-up -->
-    <div class="border rounded p-4 bg-white text-center">
-      <p>¿Ya tienes una cuenta? <a routerLink="/login" class="font-bold text-lime-600 hover:underline">Iniciar
-          Sesión</a>
+  <div class="relative h-24 overflow-hidden">
+    <div class="curve"></div>
+  </div>
+
+  <div class="bg-background-light px-16 h-full">
+    <!-- Form -->
+    <form class="flex flex-col gap-4 mt-16">
+      <input type="text" name="" id="full-name" placeholder="Nombre completo"
+        class="border-b-2 border-white bg-transparent rounded-t outline-white p-2">
+
+      <input type="tel" name="phone-number" id="phone-number" placeholder="Teléfono"
+        class="border-b-2 border-white bg-transparent rounded-t outline-white p-2">
+
+      <input type="email" name="email" id="email" placeholder="Email"
+        class="border-b-2 border-white bg-transparent rounded-t outline-white p-2">
+
+      <input type="password" name="password" id="password" placeholder="Contraseña"
+        class="border-b-2 border-white bg-transparent rounded-t outline-white p-2">
+
+      <button type="submit"
+        class="button-shadow text-black bg-primary-light text-xl font-bold rounded-full py-4 my-8">Registarse</button>
+    </form>
+
+    <!-- Login -->
+    <div class="text-center">
+      <p>¿Ya tienes una cuenta? <a routerLink="/login" class="underline hover:text-primary-light">Iniciar Sesión</a>
       </p>
     </div>
   </div>
