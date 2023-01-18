@@ -1,7 +1,9 @@
 <div class="flex flex-col h-screen bg-background-dark text-white ">
 
   <div class="bg-background-dark px-12 pt-10">
-    <img src="assets/logo-dark.png" alt="Contact.ar Ciencia">
+    <a routerLink="/">
+      <img src="assets/logo-dark.png" alt="Contact.ar Ciencia">
+    </a>
   </div>
 
   <div class="relative h-24 overflow-hidden">
@@ -12,10 +14,10 @@
 
     <form [formGroup]="logInForm" (ngSubmit)="onLogIn()" class="flex flex-col gap-4">
       <input type="email" name="email" id="email" placeholder="Email" formControlName="email"
-        class="border-b-2 border-white bg-transparent rounded-t outline-white p-2">
+        class="border-b-2 border-white bg-transparent outline-white p-2">
 
       <input type="password" name="password" id="password" placeholder="Contraseña" formControlName="password"
-        class="border-b-2 border-white bg-transparent rounded-t outline-white p-2">
+        class="border-b-2 border-white bg-transparent outline-white p-2">
 
       <div class="text-end">
         <a href="" class="text-end text-sm text-teal-500">
