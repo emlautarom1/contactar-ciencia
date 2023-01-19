@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ValuesService } from 'src/app/service/values.service';
 
 @Component({
@@ -7,12 +8,20 @@ import { ValuesService } from 'src/app/service/values.service';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  sciences: any;
+  searchFormOptions: any;
+  searchForm: any;
 
-  constructor(private values: ValuesService) { }
+  constructor(
+    private values: ValuesService,
+    private fb: FormBuilder,
+  ) { }
 
   ngOnInit(): void {
-    this.sciences = this.values.sciences;
+    this.searchFormOptions = [...this.values.sciences]
+    this.searchForm = this.fb.group({
+      science: [null],
+      specialization: [null],
+    });
   }
 
 }
