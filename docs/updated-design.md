@@ -50,8 +50,10 @@ Se le puede poner alguna animación como que aparecen y desaparecen o se cambian
 ## Sobre la carga de datos
 Deberían cargar:
 
-- Resumen de experiencia profesional, capacidades, áreas de trabajo e interés
+- Nombre completo
+- Correo electrónico
 - Fotos: Personal o Grupal
+- Resumen de experiencia profesional, capacidades, áreas de trabajo e interés
 - Lugar de trabajo
 - Etiquetas (las que se desprenden de grandes areas y disciplinas por default) y luego otras que son muy específicas y que tengan (obligatorio) al menos cuatro
 - Asignar un campo para haya algo asi como un Lado B (otros intereses de científicxs)
