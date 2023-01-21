@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Profile } from 'src/app/model/profile';
+import { FormBuilder } from '@angular/forms';
 import { SessionService } from 'src/app/service/session.service';
-import { ValuesService } from 'src/app/service/values.service';
 
 @Component({
   selector: 'app-settings',
@@ -9,22 +8,24 @@ import { ValuesService } from 'src/app/service/values.service';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-  profile!: Profile
+  aboutForm: any;
 
   constructor(
-    private values: ValuesService,
-    public session: SessionService
+    public session: SessionService,
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit(): void {
-    this.profile = this.session.profile;
-  }
+    let initial = this.session.profile;
 
-  get sciences() {
-    return this.values.sciences.map(cience => cience.title);
-  }
+    this.aboutForm = this.fb.group({
+      name: [initial.name],
+      city: [initial.location.city],
+      province: [initial.location.province],
+      cover: [initial.cover],
+      // TODO: Handle image upload
+      picture: [initial.picture],
+    });
 
-  get specializations() {
-    return this.values.sciences[0].specializations;
   }
 }

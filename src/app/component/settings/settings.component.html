@@ -1,106 +1,42 @@
-<div class="container mx-auto mb-16">
-  <app-navbar></app-navbar>
-</div>
+<app-navbar></app-navbar>
 
-<div class="flex flex-col gap-8 max-w-screen-lg mx-auto mb-4">
+<div class="px-4 py-8 bg-background-light">
 
-  <div class="flex flex-col gap-2 p-4 border rounded">
-    <h2 class="text-xl font-bold mb-4">Acerca de</h2>
+  <div class="flex flex-col gap-4 p-4 rounded-xl text-white bg-gradient-to-b from-primary-medium to-background-dark">
 
-    <label for="name">Nombre</label>
-    <input type="text" name="name" id="name" [value]="profile.name" class="px-2 py-1 border rounded outline-lime-600">
+    <form [formGroup]="aboutForm" class="flex flex-col gap-4">
+      <h2 class="font-bold text-lg">Acerca de</h2>
 
-    <label for="email">Email</label>
-    <input type="email" name="email" id="email" [value]="profile.contact.email"
-      class="px-2 py-1 border rounded outline-lime-600">
-
-    <label for="location">Ubicación</label>
-    <input type="text" name="location" id="location" [value]="profile.location.city"
-      class="px-2 py-1 border rounded outline-lime-600">
-
-    <label for="cover">Biografía</label>
-    <textarea name="cover" id="cover" [value]="profile.cover" cols="30" rows="5"
-      class="p-2 border rounded outline-lime-600"></textarea>
-
-    <label for="profile_picture">Foto de Perfil</label>
-    <div class="flex flex-row items-center gap-2">
-      <img [src]="profile.picture" alt="avatar" class="w-16 h-16 rounded-full">
-      <input type="file" name="profile_picture" id="profile_picture">
-    </div>
-  </div>
-
-  <div class="flex flex-col gap-2 p-4 border rounded">
-    <h2 class="text-xl font-bold mb-4">Áreas de Trabajo</h2>
-
-    <label for="cience">Área Científica</label>
-    <select name="cience" id="cience" class="px-2 py-1 bg-slate-50 border rounded outline-lime-600">
-      <option *ngFor="let c of sciences" [value]="c">{{ c }}</option>
-    </select>
-
-    <label for="specialization">Especialización</label>
-    <select name="specialization" id="specialization" class="px-2 py-1 bg-slate-50 border rounded outline-lime-600">
-      <option *ngFor="let s of specializations" [value]="s">{{ s }}</option>
-    </select>
-
-    <label for="skills">Habilidades y/o Capacidades<span class="text-sm italic pl-2">(Al menos 4, separadas por
-        comas)</span></label>
-    <input type="text" name="skills" id="skills" [value]="profile.skills.join(', ')"
-      class="px-2 py-1 border rounded outline-lime-600">
-  </div>
-
-  <div class="flex flex-col gap-2 p-4 border rounded">
-    <h2 class="text-xl font-bold mb-4">Contacto</h2>
-
-    <label for="phone">Celular</label>
-    <input type="text" name="phone" id="phone" [value]="profile.contact.phone"
-      class="px-2 py-1 border rounded outline-lime-600">
-
-    <label for="url">Sitios Personales</label>
-    <div class="flex flex-col mx-4 gap-2">
-      <form class="flex flex-row justify-between items-center">
-        <input type="text" name="url" id="url" class="w-full px-2 py-1 mr-2 border rounded outline-lime-600">
-        <button type="submit"
-          class="text-sm bg-lime-600 hover:bg-lime-700 text-white py-1 border rounded px-4">Añadir</button>
-      </form>
-      <ul>
-        <li *ngFor="let url of profile.contact.urls" class="flex flex-row justify-between items-center">
-          <a [href]="url" class="text-lime-600 hover:underline">{{ url }}</a>
-          <button type="button"
-            class="self-end text-sm text-white bg-red-600 hover:bg-red-700 px-2 rounded">Eliminar</button>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="flex flex-col gap-2 p-4 border rounded">
-    <h2 class="text-xl font-bold mb-4">Experiencia Profesional</h2>
-    <form class="flex flex-col items-start gap-2 px-2">
-      <label for="job_title">Título</label>
-      <input type="text" name="job_title" id="job_title" class="w-full px-2 py-1 outline-lime-600 border rounded">
-      <div class="flex flex-row gap-2 w-full items-center">
-        <label for="job_start">Inicio</label>
-        <input type="date" name="job_start" id="job_start" class="px-2 py-1 border rounded outline-lime-600">
-        <label for="job_end">Fin</label>
-        <input type="date" name="job_end" id="job_end" class="px-2 py-1 border rounded outline-lime-600">
+      <div>
+        <label for="name" class="block text-sm font-bold">Nombre</label>
+        <input type="text" name="name" id="name" formControlName="name" class="w-full bg-transparent border-b">
       </div>
-      <label for="job_description">Descripción</label>
-      <textarea name="job_description" id="job_description" rows="5"
-        class="w-full px-2 py-1 border rounded outline-lime-600"></textarea>
-      <button type="submit" class="self-end text-white bg-lime-600 hover:bg-lime-700 px-4 py-1 rounded">
-        Añadir
-      </button>
+
+      <div>
+        <label for="city" class="block text-sm font-bold">Ciudad</label>
+        <input type="text" name="city" id="city" formControlName="city" class="w-full bg-transparent border-b">
+      </div>
+
+      <div>
+        <label for="province" class="block text-sm font-bold">Provincia</label>
+        <input type="text" name="province" id="province" formControlName="province"
+          class="w-full bg-transparent border-b">
+      </div>
+
+      <div>
+        <label for="cover" class="block text-sm font-bold">Biografía</label>
+        <textarea name="cover" id="cover" formControlName="cover" cols="9999" rows="5"
+          class="max-w-full w-full bg-transparent border-b"></textarea>
+      </div>
+
+      <div class="flex flex-row items-center gap-4">
+        <img [src]="aboutForm.value.picture" alt="avatar" class="h-24 rounded-full">
+        <button class="px-4 py-2 rounded bg-primary-light text-black" (click)="pictureInput.click()">Elegir
+          fotografía</button>
+        <input #pictureInput type="file" accept="image/*" name="picture" id="picture" formControlName="picture"
+          class="hidden">
+      </div>
     </form>
 
-    <div *ngFor="let w of profile.work" class="flex flex-col gap-2 p-4 border-b last:border-b-0">
-      <h3>{{ w.title }} </h3>
-      <span class="text-sm font-light">{{ w.start_date }} &ndash; {{ w.end_date }}</span>
-      <p class="italic">&ldquo;{{ w.description }}&rdquo;</p>
-      <button class="self-end text-sm text-white bg-red-600 hover:bg-red-700 px-2 py-1 rounded">Eliminar</button>
-    </div>
   </div>
-
-  <button type="button" class="text-lg self-end py-2 px-4 bg-lime-600 hover:bg-lime-700 text-white border rounded">
-    Guardar Cambios
-  </button>
-
 </div>
