@@ -9,19 +9,6 @@ import { catchError, map, Observable, of, shareReplay } from 'rxjs';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent {
-  /*
-  TODO:
-    - Location (coordinates and display name)
-    - Build proper hrefs (phone and email)
-    - Profile should be a prop
-  */
-
-  apiStatus$!: Observable<boolean>;
-  mapOptions: google.maps.MapOptions = {
-    disableDefaultUI: true,
-    zoom: 11
-  };
-
   profile = {
     name: "Patricia Estela Verdes",
     picture: "assets/avatar/4.webp",
@@ -31,7 +18,7 @@ export class ProfileComponent {
       urls: ["http://twitter.com/peverdes"]
     },
     location: {
-      display_name: "San Luis",
+      display_name: "Merlo, San Luis",
       coordinates: { lat: -33.300, lng: -66.335 }
     },
     cience: "Agrarias, Ingenierías, Desarrollo Tecnológico y Social",
@@ -41,17 +28,5 @@ export class ProfileComponent {
     work: Array(5).fill({ title: "Mi Proyecto", start_date: "01/2022", end_date: "08/2022", description: "Herramientas biotecnológicas para la domesticación, caracterización y desarrollo de germoplasma nativo con potencial ornamental, aromático y medicinal de la provincia de San Luis" })
   }
 
-  constructor(httpClient: HttpClient, private geocoder: MapGeocoder) {
-    const apiKey = "";
-    const url = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
-    this.apiStatus$ = httpClient.jsonp(url, 'callback')
-      .pipe(
-        map(() => true),
-        catchError((err) => {
-          console.log(err);
-          return of(false);
-        }),
-        shareReplay()
-      );
-  }
+  constructor() { }
 }
