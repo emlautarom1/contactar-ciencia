@@ -1,7 +1,4 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { MapGeocoder } from '@angular/google-maps';
-import { catchError, map, Observable, of, shareReplay } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -9,6 +6,8 @@ import { catchError, map, Observable, of, shareReplay } from 'rxjs';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent {
+  // TODO: Get profile as prop
+
   profile = {
     name: "Patricia Estela Verdes",
     picture: "assets/avatar/4.webp",
