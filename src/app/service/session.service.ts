@@ -17,8 +17,8 @@ export class SessionService {
       urls: ["http://twitter.com/peverdes"]
     },
     location: {
-      name: "San Luis",
-      coordinates: { lat: -33.300, lng: -66.335 }
+      city: "Merlo",
+      province: "San Luis"
     },
     cience: "Agrarias, Ingenierías, Desarrollo Tecnológico y Social",
     specialization: "Ciencias Agrarias",

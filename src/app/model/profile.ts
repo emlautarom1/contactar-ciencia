@@ -7,8 +7,8 @@ export interface Profile {
     urls: string[]
   },
   location: {
-    name: string,
-    coordinates: { lat: number, lng: number }
+    city: string,
+    province: string
   },
   cience: string,
   specialization: string,

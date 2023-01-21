@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Profile } from 'src/app/model/profile';
 
 @Component({
   selector: 'app-profile',
@@ -8,7 +9,7 @@ import { Component } from '@angular/core';
 export class ProfileComponent {
   // TODO: Get profile as prop
 
-  profile = {
+  profile: Profile = {
     name: "Patricia Estela Verdes",
     picture: "assets/avatar/4.webp",
     contact: {
@@ -17,8 +18,8 @@ export class ProfileComponent {
       urls: ["http://twitter.com/peverdes"]
     },
     location: {
-      display_name: "Merlo, San Luis",
-      coordinates: { lat: -33.300, lng: -66.335 }
+      city: "Merlo",
+      province: "San Luis"
     },
     cience: "Agrarias, Ingenierías, Desarrollo Tecnológico y Social",
     specialization: "Ciencias Agrarias",
