@@ -10,7 +10,7 @@ export interface Profile {
     city: string,
     province: string
   },
-  cience: string,
+  science: string,
   specialization: string,
   skills: string[],
   cover: string,
