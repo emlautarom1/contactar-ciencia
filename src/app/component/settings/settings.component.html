@@ -98,11 +98,11 @@
       </form>
 
       <div class="flex flex-col gap-2">
-        <div *ngFor="let work of experienceForm.value" class="text-sm">
+        <div *ngFor="let work of experienceForm.value" class="flex flex-col gap-2 text-sm">
           <h3 class="">{{ work.title }} </h3>
-          <span class="text-xs font-light">{{ work.start_date }} &ndash; {{ work.end_date }}</span>
-          <p class="text-xs italic">&ldquo;{{ work.description }}&rdquo;</p>
-          <span class="block text-end"><button class="rounded bg-red-500 px-2">Eliminar</button></span>
+          <span class="font-light">{{ work.start_date }} &ndash; {{ work.end_date }}</span>
+          <p class="italic">&ldquo;{{ work.description }}&rdquo;</p>
+          <button class="self-end px-2 rounded bg-red-500">Eliminar</button>
         </div>
       </div>
     </form>
