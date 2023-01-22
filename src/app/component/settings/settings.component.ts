@@ -19,8 +19,8 @@ export class SettingsComponent implements OnInit {
   contactForm!: FormGroup<{ phone: FormControl<string>; urls: FormControl<string[]>; }>;
   newUrlForm!: FormControl<string>;
 
-  experienceForm: any;
-  newExperienceForm: any;
+  experienceForm!: FormControl<{ title: string; start_date: string; end_date: string; description: string; }[]>;
+  newExperienceForm!: FormGroup<{ title: FormControl<string>; start_date: FormControl<string>; end_date: FormControl<string>; description: FormControl<string>; }>;
 
   constructor(
     public session: SessionService,
@@ -55,25 +55,42 @@ export class SettingsComponent implements OnInit {
     });
     this.newUrlForm = this.fb.nonNullable.control("");
 
-    this.experienceForm = this.fb.control([...initial.work]);
+    this.experienceForm = this.fb.nonNullable.control([...initial.work]);
     this.newExperienceForm = this.fb.nonNullable.group({
       title: [""],
-      startDate: [""],
-      endDate: [""],
+      start_date: [""],
+      end_date: [""],
       description: [""],
     });
   }
 
+  onNewExperience() {
+    // TODO:
+    // - string->Date
+    // - Nullable end_date
+    let newExperience = this.newExperienceForm.getRawValue();
+    let oldExperience = this.experienceForm.getRawValue()
+    let updatedExperience = [newExperience, ...oldExperience];
+    this.experienceForm.patchValue(updatedExperience);
+    this.newExperienceForm.reset();
+  }
+
+  removeExperienceAt(index: number) {
+    let experience = [...this.experienceForm.getRawValue()]
+    experience.splice(index, 1);
+    this.experienceForm.patchValue(experience);
+  }
+
   onNewUrl() {
-    let newUrl = this.newUrlForm.value;
-    let oldUrls = this.contactForm.controls.urls.value
-    let updatedUrls = [...oldUrls, newUrl];
+    let newUrl = this.newUrlForm.getRawValue();
+    let oldUrls = this.contactForm.controls.urls.getRawValue()
+    let updatedUrls = [newUrl, ...oldUrls];
     this.contactForm.controls.urls.patchValue(updatedUrls);
     this.newUrlForm.reset();
   }
 
   removeUrlAt(index: number) {
-    let urls = [...this.contactForm.controls.urls.value]
+    let urls = [...this.contactForm.controls.urls.getRawValue()]
     urls.splice(index, 1);
     this.contactForm.controls.urls.patchValue(urls);
   }

@@ -68,10 +68,10 @@
       </div>
     </form>
 
-    <form [formGroup]="experienceForm" class="flex flex-col gap-4">
+    <div class="flex flex-col gap-4">
       <h2 class="font-bold text-lg text-center">Experiencia Profesional</h2>
 
-      <form [formGroup]="newExperienceForm" class="flex flex-col gap-2">
+      <form [formGroup]="newExperienceForm" (ngSubmit)="onNewExperience()" class=" flex flex-col gap-2">
         <div>
           <label for="title" class="block text-sm font-bold mb-1">Titulo</label>
           <input type="text" name="title" id="title" formControlName="title" class="w-full bg-transparent border-b">
@@ -80,10 +80,10 @@
         <div>
           <label for="start_date" class="block text-sm font-bold mb-1">Período</label>
           <div class="flex flex-row gap-2">
-            <input type="date" name="start_date" id="start_date" formControlName="startDate"
+            <input type="date" name="start_date" id="start_date" formControlName="start_date"
               class="w-1/2 p-1 text-ellipsis text-white bg-background-dark rounded">
             <span class="block opacity-20">&mdash;</span>
-            <input type="date" name="end_date" id="end_date" formControlName="endDate"
+            <input type="date" name="end_date" id="end_date" formControlName="end_date"
               class="w-1/2 p-1 text-ellipsis text-white bg-background-dark rounded">
           </div>
         </div>
@@ -94,18 +94,22 @@
             class="max-w-full w-full bg-transparent border-b"></textarea>
         </div>
 
-        <button type="submit" class="px-2 py-1 self-end bg-primary-light rounded text-black">Añadir</button>
+        <button type="submit" class="px-2 py-1 self-end bg-primary-light rounded text-black">
+          Añadir
+        </button>
       </form>
 
       <div class="flex flex-col gap-2">
-        <div *ngFor="let work of experienceForm.value" class="flex flex-col gap-2 text-sm">
+        <div *ngFor="let work of experienceForm.value; let i = index" class="flex flex-col gap-2 text-sm">
           <h3 class="">{{ work.title }} </h3>
           <span class="font-light">{{ work.start_date }} &ndash; {{ work.end_date }}</span>
           <p class="italic">&ldquo;{{ work.description }}&rdquo;</p>
-          <button class="self-end px-2 rounded bg-red-500">Eliminar</button>
+          <button type="button" (click)="removeExperienceAt(i)" class="self-end px-2 rounded bg-red-500">
+            Eliminar
+          </button>
         </div>
       </div>
-    </form>
+    </div>
 
     <form [formGroup]="contactForm" class="flex flex-col gap-4">
       <h2 class="font-bold text-lg text-center">Contacto</h2>
