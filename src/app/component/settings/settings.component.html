@@ -2,10 +2,10 @@
 
 <div class="px-4 py-8 bg-background-light">
 
-  <div class="flex flex-col gap-4 p-4 rounded-xl text-white bg-gradient-to-b from-primary-medium to-background-dark">
+  <div class="flex flex-col gap-8 p-4 rounded-xl text-white bg-gradient-to-b from-primary-medium to-background-dark">
 
     <form [formGroup]="aboutForm" class="flex flex-col gap-4">
-      <h2 class="font-bold text-lg">Acerca de</h2>
+      <h2 class="font-bold text-lg text-center">Acerca de</h2>
 
       <div>
         <label for="name" class="block text-sm font-bold mb-1">Nombre</label>
@@ -39,7 +39,7 @@
     </form>
 
     <form [formGroup]="workForm" class="flex flex-col gap-4">
-      <h2 class="font-bold text-lg">Competencias</h2>
+      <h2 class="font-bold text-lg text-center">Competencias</h2>
 
       <div>
         <label for="specialization" class="block text-sm font-bold mb-1">Especialización</label>
@@ -68,8 +68,48 @@
       </div>
     </form>
 
+
+    <form [formGroup]="experienceForm" class="flex flex-col gap-4">
+      <h2 class="font-bold text-lg text-center">Experiencia Profesional</h2>
+
+      <form [formGroup]="newExperienceForm" class="flex flex-col gap-2">
+        <div>
+          <label for="title" class="block text-sm font-bold mb-1">Titulo</label>
+          <input type="text" name="title" id="title" formControlName="title" class="w-full bg-transparent border-b">
+        </div>
+
+        <div>
+          <label for="start_date" class="block text-sm font-bold mb-1">Período</label>
+          <div class="flex flex-row gap-2">
+            <input type="date" name="start_date" id="start_date" formControlName="startDate"
+              class="w-1/2 p-1 text-ellipsis text-white bg-background-dark rounded">
+            <span class="block opacity-20">&mdash;</span>
+            <input type="date" name="end_date" id="end_date" formControlName="endDate"
+              class="w-1/2 p-1 text-ellipsis text-white bg-background-dark rounded">
+          </div>
+        </div>
+
+        <div>
+          <label for="description" class="block text-sm font-bold mb-1">Descripción</label>
+          <textarea name="description" id="description" formControlName="description" cols="9999" rows="5"
+            class="max-w-full w-full bg-transparent border-b"></textarea>
+        </div>
+
+        <button type="submit" class="px-2 py-1 self-end bg-primary-light rounded text-black">Añadir</button>
+      </form>
+
+      <div class="flex flex-col gap-2">
+        <div *ngFor="let work of experienceForm.value" class="text-sm">
+          <h3 class="">{{ work.title }} </h3>
+          <span class="text-xs font-light">{{ work.start_date }} &ndash; {{ work.end_date }}</span>
+          <p class="text-xs italic">&ldquo;{{ work.description }}&rdquo;</p>
+          <span class="block text-end"><button class="rounded bg-red-500 px-2">Eliminar</button></span>
+        </div>
+      </div>
+    </form>
+
     <form [formGroup]="contactForm" class="flex flex-col gap-4">
-      <h2 class="font-bold text-lg">Contacto</h2>
+      <h2 class="font-bold text-lg text-center">Contacto</h2>
 
       <div>
         <label for="phone" class="block text-sm font-bold mb-1">Teléfono</label>
@@ -83,13 +123,14 @@
             class="grow-1 w-full bg-transparent border-b">
           <button type="submit" class="ml-4 grow-0 bg-primary-light px-2 rounded">&plus;</button>
         </form>
-        <ul class="flex flex-col mt-2 gap-2">
-          <li *ngFor="let url of contactForm.controls.urls.value; let i = index" class="flex flex-row">
-            <a [href]="url" class="grow-1 w-full underline">{{ url }}</a>
-            <button type="button" (click)="removeUrlAt(i)" class="ml-4 grow-0 bg-red-500 px-2 rounded">&#8722;</button>
-          </li>
-        </ul>
       </div>
+
+      <ul class="flex flex-col gap-2">
+        <li *ngFor="let url of contactForm.controls.urls.value; let i = index" class="flex flex-row">
+          <a [href]="url" class="grow-1 w-full underline">{{ url }}</a>
+          <button type="button" (click)="removeUrlAt(i)" class="ml-4 grow-0 bg-red-500 px-2 rounded">&#8722;</button>
+        </li>
+      </ul>
     </form>
 
   </div>

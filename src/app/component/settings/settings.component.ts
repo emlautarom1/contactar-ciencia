@@ -19,6 +19,9 @@ export class SettingsComponent implements OnInit {
   contactForm: any;
   newUrlForm: any;
 
+  experienceForm: any;
+  newExperienceForm: any;
+
   constructor(
     public session: SessionService,
     private fb: FormBuilder,
@@ -50,7 +53,15 @@ export class SettingsComponent implements OnInit {
       phone: [initial.contact.phone],
       urls: [[...initial.contact.urls, ...initial.contact.urls]]
     });
-    this.newUrlForm = new FormControl([""])
+    this.newUrlForm = new FormControl([""]);
+
+    this.experienceForm = this.fb.control([...initial.work]);
+    this.newExperienceForm = this.fb.group({
+      title: [""],
+      startDate: [""],
+      endDate: [""],
+      description: [""],
+    });
   }
 
   onNewUrl() {
