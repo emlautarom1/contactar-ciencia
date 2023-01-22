@@ -8,33 +8,63 @@
       <h2 class="font-bold text-lg">Acerca de</h2>
 
       <div>
-        <label for="name" class="block text-sm font-bold">Nombre</label>
+        <label for="name" class="block text-sm font-bold mb-1">Nombre</label>
         <input type="text" name="name" id="name" formControlName="name" class="w-full bg-transparent border-b">
       </div>
 
       <div>
-        <label for="city" class="block text-sm font-bold">Ciudad</label>
+        <label for="city" class="block text-sm font-bold mb-1">Ciudad</label>
         <input type="text" name="city" id="city" formControlName="city" class="w-full bg-transparent border-b">
       </div>
 
       <div>
-        <label for="province" class="block text-sm font-bold">Provincia</label>
+        <label for="province" class="block text-sm font-bold mb-1">Provincia</label>
         <input type="text" name="province" id="province" formControlName="province"
           class="w-full bg-transparent border-b">
       </div>
 
       <div>
-        <label for="cover" class="block text-sm font-bold">Biografía</label>
+        <label for="cover" class="block text-sm font-bold mb-1">Biografía</label>
         <textarea name="cover" id="cover" formControlName="cover" cols="9999" rows="5"
           class="max-w-full w-full bg-transparent border-b"></textarea>
       </div>
 
       <div class="flex flex-row items-center gap-4">
-        <img [src]="aboutForm.value.picture" alt="avatar" class="h-24 rounded-full">
+        <img [src]="picturePreview" alt="avatar" class="h-16 rounded-full">
         <button class="px-4 py-2 rounded bg-primary-light text-black" (click)="pictureInput.click()">Elegir
           fotografía</button>
         <input #pictureInput type="file" accept="image/*" name="picture" id="picture" formControlName="picture"
           class="hidden">
+      </div>
+    </form>
+
+    <form [formGroup]="workForm" class="flex flex-col gap-4">
+      <h2 class="font-bold text-lg">Competencias</h2>
+
+      <div>
+        <label for="specialization" class="block text-sm font-bold mb-1">Especialización</label>
+        <div class="flex flex-row gap-2">
+          <select formControlName="science" name="science" id="science"
+            (change)="workForm.controls.specialization.reset()"
+            class="w-1/2 p-1 text-ellipsis text-white bg-background-dark rounded">
+            <option *ngFor="let opt of workFormOptions" [ngValue]="opt">
+              {{opt.title}}
+            </option>
+          </select>
+          <select formControlName="specialization"
+            class="w-1/2 p-1 text-white text-ellipsis bg-background-dark rounded">
+            <option *ngFor="let spec of workForm.get('science')?.value?.specializations || []" [ngValue]="spec">
+              {{spec}}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label for="skills" class="block text-sm font-bold mb-1">
+          Habilidades y/o Capacidades<span class="font-normal italic"> (al menos 4, separadas por comas)</span>
+        </label>
+        <input type="text" name="skills" id="skills" formControlName="skills" class="w-full bg-transparent border-b">
       </div>
     </form>
 
