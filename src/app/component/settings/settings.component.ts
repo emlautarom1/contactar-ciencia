@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { SessionService } from 'src/app/service/session.service';
 import { ValuesService } from 'src/app/service/values.service';
 
@@ -15,6 +15,9 @@ export class SettingsComponent implements OnInit {
   // TODO: Rewrite the science->specialization system
   workForm: any;
   workFormOptions: any;
+
+  contactForm: any;
+  newUrlForm: any;
 
   constructor(
     public session: SessionService,
@@ -42,5 +45,19 @@ export class SettingsComponent implements OnInit {
       specialization: [null],
       skills: [""],
     });
+
+    this.contactForm = this.fb.group({
+      phone: [initial.contact.phone],
+      urls: [[...initial.contact.urls, ...initial.contact.urls]]
+    });
+    this.newUrlForm = new FormControl([""])
+  }
+
+  onNewUrl() {
+    console.log("onNewUrl")
+  }
+
+  removeUrlAt(index: number) {
+    console.log("removeUrlAt", index);
   }
 }
