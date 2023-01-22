@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SessionService } from 'src/app/service/session.service';
 import { ValuesService } from 'src/app/service/values.service';
 
@@ -16,8 +16,8 @@ export class SettingsComponent implements OnInit {
   workForm: any;
   workFormOptions: any;
 
-  contactForm: any;
-  newUrlForm: any;
+  contactForm!: FormGroup<{ phone: FormControl<string>; urls: FormControl<string[]>; }>;
+  newUrlForm!: FormControl<string>;
 
   experienceForm: any;
   newExperienceForm: any;
@@ -49,14 +49,14 @@ export class SettingsComponent implements OnInit {
       skills: [""],
     });
 
-    this.contactForm = this.fb.group({
+    this.contactForm = this.fb.nonNullable.group({
       phone: [initial.contact.phone],
-      urls: [[...initial.contact.urls, ...initial.contact.urls]]
+      urls: [[...initial.contact.urls]]
     });
-    this.newUrlForm = new FormControl([""]);
+    this.newUrlForm = this.fb.nonNullable.control("");
 
     this.experienceForm = this.fb.control([...initial.work]);
-    this.newExperienceForm = this.fb.group({
+    this.newExperienceForm = this.fb.nonNullable.group({
       title: [""],
       startDate: [""],
       endDate: [""],
@@ -65,10 +65,16 @@ export class SettingsComponent implements OnInit {
   }
 
   onNewUrl() {
-    console.log("onNewUrl")
+    let newUrl = this.newUrlForm.value;
+    let oldUrls = this.contactForm.controls.urls.value
+    let updatedUrls = [...oldUrls, newUrl];
+    this.contactForm.controls.urls.patchValue(updatedUrls);
+    this.newUrlForm.reset();
   }
 
   removeUrlAt(index: number) {
-    console.log("removeUrlAt", index);
+    let urls = [...this.contactForm.controls.urls.value]
+    urls.splice(index, 1);
+    this.contactForm.controls.urls.patchValue(urls);
   }
 }
