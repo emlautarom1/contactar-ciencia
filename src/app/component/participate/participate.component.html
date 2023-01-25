@@ -1,40 +1,44 @@
-<div class="flex flex-col h-screen bg-primary-medium text-white">
+<div class="flex flex-col items-center h-screen bg-background-dark">
+  <div class="grow max-w-3xl flex flex-col text-white">
 
-  <div class="bg-primary-medium px-12 pt-10">
-    <img src="assets/logo-light.png" alt="Contact.ar Ciencia">
-  </div>
-
-  <div class="relative h-24 overflow-hidden">
-    <div class="curve"></div>
-  </div>
-
-  <div class="flex flex-col gap-8 py-16 p-8 h-full bg-background-light">
-
-    <div class="flex flex-col gap-2 text-center rounded-xl bg-background-dark p-4">
-      <h2 class="text-xl font-bold">
-        Investigadores y Periodístas
-      </h2>
-      <p class="font-light">
-        Puede consultar nuestro índice de expertos en una multitud de áreas científicas y
-        especializaciones ubicadoes en diferentes regiones del país.
-      </p>
-      <a routerLink="/search" class="bg-primary-light text-black rounded p-2">
-        Visitar el Índice
+    <div class="px-12 pt-10 bg-primary-medium">
+      <a routerLink="/">
+        <img src="assets/logo-light.png" alt="Contact.ar Ciencia">
       </a>
     </div>
 
-    <div class="flex flex-col gap-2 text-center rounded-xl bg-background-dark p-4">
-      <h2 class="text-xl font-bold">
-        Científicos y Profesionales
-      </h2>
-      <p class="font-light">
-        Si usted es un científico y/o profesional y quiere ofrecer sus conocimientos a la
-        comunidad, lo invitamos a que sea parte de este proyecto.
-      </p>
-      <a routerLink="/signup" class="bg-primary-light text-black rounded p-2">
-        Registrarse
-      </a>
+    <div class="relative h-16 overflow-hidden bg-primary-medium">
+      <div class="curve"></div>
     </div>
 
+    <div class="grow py-16 px-8 bg-background-light">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="flex flex-col gap-2 p-4 text-center rounded-xl bg-background-dark">
+          <h2 class="text-xl font-bold">
+            Investigadores y Periodístas
+          </h2>
+          <p class="font-light">
+            Puede consultar nuestro índice de expertos en una multitud de áreas científicas y
+            especializaciones ubicadoes en diferentes regiones del país.
+          </p>
+          <a routerLink="/search" class="bg-primary-light text-black rounded p-2">
+            Visitar el Índice
+          </a>
+        </div>
+
+        <div class="flex flex-col gap-2 text-center rounded-xl bg-background-dark p-4">
+          <h2 class="text-xl font-bold">
+            Científicos y Profesionales
+          </h2>
+          <p class="font-light">
+            Si usted es un científico y/o profesional y quiere ofrecer sus conocimientos a la
+            comunidad, lo invitamos a que sea parte de este proyecto.
+          </p>
+          <a routerLink="/signup" class="bg-primary-light text-black rounded p-2">
+            Registrarse
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
