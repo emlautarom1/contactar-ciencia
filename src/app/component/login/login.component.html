@@ -1,40 +1,36 @@
-<div class="flex flex-col h-screen bg-background-dark text-white ">
-
-  <div class="bg-background-dark px-12 pt-10">
-    <a routerLink="/">
-      <img src="assets/logo-dark.png" alt="Contact.ar Ciencia">
-    </a>
-  </div>
-
-  <div class="relative h-24 overflow-hidden">
-    <div class="curve"></div>
-  </div>
-
-  <div class="flex flex-col gap-8 p-16 h-full bg-background-light">
-
-    <form [formGroup]="logInForm" (ngSubmit)="onLogIn()" class="flex flex-col gap-4">
-      <input type="email" name="email" id="email" placeholder="Email" formControlName="email"
-        class="border-b-2 border-white bg-transparent outline-white p-2">
-
-      <input type="password" name="password" id="password" placeholder="Contraseña" formControlName="password"
-        class="border-b-2 border-white bg-transparent outline-white p-2">
-
-      <div class="text-end">
-        <a href="" class="text-end text-sm text-teal-500">
-          Olvidé mi contraseña
-        </a>
-      </div>
-
-      <button type="submit" [disabled]="logInForm.invalid"
-        class="button-shadow text-black bg-primary-light text-xl font-bold rounded-full py-4 my-8">
-        Acceder
-      </button>
-    </form>
-
-    <div class="text-center">
-      <p>¿No tienes una cuenta? <a routerLink="/signup" class="underline hover:text-primary-light">Registrarse</a>
-      </p>
+<div class="flex flex-col items-center h-screen bg-background-dark">
+  <div class="max-w-3xl h-full flex flex-col text-white">
+    <div class="bg-background-dark px-12 pt-10">
+      <a routerLink="/">
+        <img src="assets/logo-dark.png" alt="Contact.ar Ciencia">
+      </a>
     </div>
 
+    <div class="relative h-16 overflow-hidden">
+      <div class="curve"></div>
+    </div>
+
+    <div class="grow flex flex-col gap-8 p-16 bg-background-light">
+      <form [formGroup]="logInForm" (ngSubmit)="onLogIn()" class="flex flex-col gap-4">
+        <input type="email" name="email" id="email" placeholder="Email" formControlName="email"
+          class="border-b-2 border-white bg-transparent outline-white p-2">
+        <input type="password" name="password" id="password" placeholder="Contraseña" formControlName="password"
+          class="border-b-2 border-white bg-transparent outline-white p-2">
+        <div class="text-end">
+          <a href="" class="text-end text-sm text-teal-500">
+            Olvidé mi contraseña
+          </a>
+        </div>
+        <button type="submit" [disabled]="logInForm.invalid"
+          class="button-shadow text-black bg-primary-light text-xl font-bold rounded-full py-4 my-8">
+          Acceder
+        </button>
+      </form>
+
+      <div class="text-center">
+        <p>¿No tienes una cuenta? <a routerLink="/signup" class="underline hover:text-primary-light">Registrarse</a>
+        </p>
+      </div>
+    </div>
   </div>
 </div>
