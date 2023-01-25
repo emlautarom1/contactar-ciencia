@@ -1,9 +1,9 @@
 <app-navbar></app-navbar>
 
 <div class="flex flex-col items-center bg-background-dark">
-  <div class="w-full max-w-6xl">
+  <div class="w-full max-w-4xl min-h-screen grow flex flex-col">
     <div class="px-8 py-12">
-      <div class="flex flex-col items-center">
+      <div class="flex flex-col items-center gap-2">
         <img src="assets/logo-dark.png" class="m-auto" alt="Contact.ar Ciencia" class="max-h-32">
         <h2 class="text-xl text-white font-light">
           Contactá expertxs de todas las áreas en <span class="font-normal">Argentina</span>
@@ -23,7 +23,7 @@
       <div class="medium-curve"></div>
     </div>
 
-    <div class="bg-primary-medium text-white">
+    <div class="grow bg-primary-medium text-white">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 py-2 px-8">
         <a *ngFor="let c of ciences; let i = index" routerLink="/search">
           <div class="bg-background-dark rounded-xl p-4">
