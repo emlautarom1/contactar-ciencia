@@ -24,11 +24,11 @@
     </div>
 
     <div class="grow bg-primary-medium text-white">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 py-2 px-8">
+      <div class="grid auto-rows-fr grid-cols-1 md:grid-cols-2 gap-4 py-2 px-8">
         <a *ngFor="let c of ciences; let i = index" routerLink="/search">
-          <div class="bg-background-dark rounded-xl p-4">
+          <div class="w-full h-full p-4 flex flex-col justify-between bg-background-dark rounded-xl">
             <h3 class="font-bold">{{ c.title }}</h3>
-            <p class="text-end font-light">{{ ((i + 1) * 3597) % 113 }} resultados</p>
+            <p class="self-end font-light">{{ ((i + 1) * 3597) % 113 }} resultados</p>
           </div>
         </a>
       </div>
