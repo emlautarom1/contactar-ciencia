@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SessionService } from 'src/app/service/session.service';
 import { ValuesService } from 'src/app/service/values.service';
 
@@ -28,17 +28,18 @@ export class SettingsComponent implements OnInit {
     private values: ValuesService,
   ) { }
 
-  ngOnInit(): void {
-    let initial = this.session.profile;
+  async ngOnInit() {
+    let initial = this.session.currentUser;
+    if (!initial) { throw Error("Null user") }
 
     this.workFormOptions = this.values.sciences;
-    this.picturePreview = initial.picture
+    this.picturePreview = initial.pictureURL;
 
     this.aboutForm = this.fb.group({
       name: [initial.name],
       city: [initial.location.city],
       province: [initial.location.province],
-      cover: [initial.cover],
+      cover: [initial.coverLetter],
       // TODO: Handle image upload
       picture: [null],
     });
@@ -55,7 +56,7 @@ export class SettingsComponent implements OnInit {
     });
     this.newUrlForm = this.fb.nonNullable.control("");
 
-    this.experienceForm = this.fb.nonNullable.control([...initial.work]);
+    this.experienceForm = this.fb.nonNullable.control([...initial.workExperience]);
     this.newExperienceForm = this.fb.nonNullable.group({
       title: [""],
       start_date: [""],

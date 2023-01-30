@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SessionService } from 'src/app/service/session.service';
 
@@ -10,8 +10,8 @@ import { SessionService } from 'src/app/service/session.service';
 })
 export class LoginComponent implements OnInit {
   logInForm = this.fb.nonNullable.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
+    email: [''],
+    password: [''],
   });
   logInFailed = false;
 
@@ -21,20 +21,17 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
   ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
-  onLogIn() {
-    if (!this.logInForm.valid) {
-      return;
-    }
-
-    let { email, password } = this.logInForm.getRawValue();
-    let profile = this.session.logIn(email, password);
-    if (profile) {
+  async onLogIn() {
+    try {
+      let { email, password } = this.logInForm.getRawValue();
+      // TODO: Show some progress bar
+      await this.session.logIn(email, password)
       this.router.navigate(["/"]);
-    }
-    else {
+    } catch (error) {
+      // TODO: Handle invalid credentials
+      console.error("LogIn failed");
       this.logInFailed = true;
     }
   }

@@ -1,47 +1,38 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Profile } from 'src/app/model/profile';
+import { Auth, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { collection, Firestore, getDocs, limit, query, where } from '@angular/fire/firestore';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Profile } from 'src/app/model/domain';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
-  private _currentUser$: BehaviorSubject<any> = new BehaviorSubject(undefined);
+  private _currentUser$ = new BehaviorSubject<Profile | null>(null);
 
-  profile: Profile = {
-    name: "Patricia Estela Verdes",
-    picture: "assets/avatar/4.webp",
-    contact: {
-      phone: "266-404-2222",
-      email: "peverdes@unsl.edu.ar",
-      urls: ["http://twitter.com/peverdes"]
-    },
-    location: {
-      city: "Merlo",
-      province: "San Luis"
-    },
-    science: "Agrarias, Ingenierías, Desarrollo Tecnológico y Social",
-    specialization: "Ciencias Agrarias",
-    skills: ["Alimentos", "Salud", "Química", "Ambiente"],
-    cover: "El potencial productivo de los recursos vegetales nativos de la provincia de San Luis es valioso, ya sea por su potencial forrajero, ornamental, medicinal, industrial y/o alimenticio. El aumento de la población, la necesidad de mejorar la calidad de dieta de los habitantes y los crecientes requerimientos de biocombustibles y biomateriales, entre otros aspectos, llevan a una mayor demanda de productos agropecuarios.",
-    work: Array(3).fill({ title: "Mi Proyecto", start_date: "01/2022", end_date: "08/2022", description: "Herramientas biotecnológicas para la domesticación, caracterización y desarrollo de germoplasma nativo con potencial ornamental, aromático y medicinal de la provincia de San Luis" })
-  }
+  constructor(private auth: Auth, private store: Firestore) { }
 
-  constructor() { }
-
-  get currentUser$() {
+  get currentUser$(): Observable<Profile | null> {
     return this._currentUser$.asObservable();
   }
 
-  logIn(email: string, password: string) {
-    if (password == '00000000') {
-      return undefined;
-    }
-    this._currentUser$.next(this.profile);
-    return this.profile;
+  get currentUser(): Profile | null {
+    return this._currentUser$.value
   }
 
-  logOut() {
-    this._currentUser$.next(undefined);
+  async logIn(email: string, password: string): Promise<Profile> {
+    let credentials = await signInWithEmailAndPassword(this.auth, email, password);
+    let profilesRef = collection(this.store, "profile");
+    let querySnapshot = await getDocs(query(profilesRef, where("uid", "==", credentials.user.uid), limit(1)));
+    let profiles: Profile[] = []
+    querySnapshot.forEach(doc => profiles.push(doc.data() as Profile));
+    let loggedProfile = profiles[0];
+    this._currentUser$.next(loggedProfile);
+    return loggedProfile;
+  }
+
+  async logOut() {
+    await signOut(this.auth);
+    this._currentUser$.next(null)
   }
 }

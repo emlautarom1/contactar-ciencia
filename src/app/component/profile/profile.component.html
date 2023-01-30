@@ -5,7 +5,7 @@
 
     <div class="flex flex-col gap-4 p-4 rounded-xl text-white bg-gradient-to-b from-primary-medium to-background-dark">
       <div class="flex flex-row items-center gap-2 md:gap-4">
-        <img [src]="profile.picture" alt="avatar" class="w-16 md:w-24 rounded-full">
+        <img [src]="profile.pictureURL" alt="avatar" class="w-16 md:w-24 rounded-full">
         <div class="grow-1 flex flex-col">
           <h1 class="text-xl font-bold">{{ profile.name }}</h1>
           <h3>{{ profile.specialization }}</h3>
@@ -20,7 +20,7 @@
       </div>
 
       <div class="py-2 text-white">
-        <p>{{ profile.cover }}</p>
+        <p>{{ profile.coverLetter }}</p>
       </div>
 
       <hr class="opacity-10 w-3/5 self-center">
@@ -29,7 +29,7 @@
         <h2 class="mb-2 font-bold text-xl">Experiencia Profesional</h2>
 
         <div class="flex flex-col gap-4">
-          <div *ngFor="let work of profile.work">
+          <div *ngFor="let work of profile.workExperience">
             <h3 class="">
               {{ work.title }}
             </h3>
