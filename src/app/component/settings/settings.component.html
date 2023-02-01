@@ -33,8 +33,7 @@
           <img [src]="picturePreview" alt="avatar" class="w-16 md:w-24 rounded-full">
           <button class="px-4 py-2 rounded bg-primary-light text-black" (click)="pictureInput.click()">Elegir
             fotografía</button>
-          <input #pictureInput type="file" accept="image/*" name="picture" id="picture" formControlName="picture"
-            class="hidden">
+          <input #pictureInput type="file" accept="image/*" name="picture" id="picture" class="hidden">
         </div>
       </form>
 
@@ -53,9 +52,7 @@
             </select>
             <select formControlName="specialization"
               class="w-1/2 p-1 text-white text-ellipsis bg-background-dark rounded">
-              <option *ngFor="let spec of workForm.get('science')?.value?.specializations || []" [ngValue]="spec">
-                {{spec}}
-              </option>
+              <option>TODO</option>
             </select>
           </div>
         </div>
@@ -136,7 +133,8 @@
         </ul>
       </form>
 
-      <button type="button" class="px-6 py-1 self-center md:self-end text-lg bg-primary-light rounded text-black">
+      <button type="button" (click)="onSave()"
+        class="px-6 py-1 self-center md:self-end text-lg bg-primary-light rounded text-black">
         Guardar Cambios
       </button>
     </div>

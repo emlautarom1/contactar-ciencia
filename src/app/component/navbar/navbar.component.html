@@ -4,8 +4,8 @@
   </a>
 
   <div class="flex flex-row items-center gap-2 text-white">
-    <ng-container *ngIf="currentUser$ | async as user; else logIn">
-      <a routerLink="/settings" class="">{{ user.name }}</a>
+    <ng-container *ngIf="currentProfile$ | async as profile; else logIn">
+      <a routerLink="/settings" class="">{{ profile.name }}</a>
       <button (click)="logOut()" class="bg-primary-light text-black rounded p-2">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="w-6 h-6">

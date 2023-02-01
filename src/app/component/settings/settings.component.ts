@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 import { SessionService } from 'src/app/service/session.service';
 import { ValuesService } from 'src/app/service/values.service';
 
@@ -9,12 +10,12 @@ import { ValuesService } from 'src/app/service/values.service';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-  aboutForm: any;
-  picturePreview: any;
+  aboutForm!: FormGroup<{ name: FormControl<string | null>; city: FormControl<string | null>; province: FormControl<string | null>; cover: FormControl<string | null>; picture: FormControl<null>; }>;
+  picturePreview!: string;
 
   // TODO: Rewrite the science->specialization system
-  workForm: any;
-  workFormOptions: any;
+  workForm!: FormGroup<{ science: FormControl<null>; specialization: FormControl<null>; skills: FormControl<string | null>; }>;
+  workFormOptions!: { title: string; specializations: string[]; }[];
 
   contactForm!: FormGroup<{ phone: FormControl<string>; urls: FormControl<string[]>; }>;
   newUrlForm!: FormControl<string>;
@@ -28,18 +29,15 @@ export class SettingsComponent implements OnInit {
     private values: ValuesService,
   ) { }
 
-  async ngOnInit() {
-    let initial = this.session.currentUser;
-    if (!initial) { throw Error("Null user") }
-
+  ngOnInit() {
     this.workFormOptions = this.values.sciences;
-    this.picturePreview = initial.pictureURL;
+    this.picturePreview = "assets/avatar/4.webp";
 
     this.aboutForm = this.fb.group({
-      name: [initial.name],
-      city: [initial.location.city],
-      province: [initial.location.province],
-      cover: [initial.coverLetter],
+      name: [""],
+      city: [""],
+      province: [""],
+      cover: [""],
       // TODO: Handle image upload
       picture: [null],
     });
@@ -51,18 +49,28 @@ export class SettingsComponent implements OnInit {
     });
 
     this.contactForm = this.fb.nonNullable.group({
-      phone: [initial.contact.phone],
-      urls: [[...initial.contact.urls]]
+      phone: [""],
+      urls: [[] as string[]]
     });
     this.newUrlForm = this.fb.nonNullable.control("");
 
-    this.experienceForm = this.fb.nonNullable.control([...initial.workExperience]);
+    this.experienceForm = this.fb.nonNullable.control([]);
     this.newExperienceForm = this.fb.nonNullable.group({
       title: [""],
       start_date: [""],
       end_date: [""],
       description: [""],
     });
+
+    firstValueFrom(this.session.currentProfile$).then(profile => {
+      if (!profile) return;
+      this.aboutForm.patchValue({
+        name: profile.name,
+        city: profile.location.city,
+        province: profile.location.province,
+        cover: profile.coverLetter
+      });
+    })
   }
 
   onNewExperience() {
@@ -94,5 +102,10 @@ export class SettingsComponent implements OnInit {
     let urls = [...this.contactForm.controls.urls.getRawValue()]
     urls.splice(index, 1);
     this.contactForm.controls.urls.patchValue(urls);
+  }
+
+  onSave() {
+    // Validate changes
+    // Handle profile changes in Firebase
   }
 }

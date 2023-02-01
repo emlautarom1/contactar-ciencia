@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { Profile } from 'src/app/model/domain';
 import { SessionService } from 'src/app/service/session.service';
 
 @Component({
@@ -8,13 +10,13 @@ import { SessionService } from 'src/app/service/session.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+  currentProfile$: Observable<Profile | null>;
+
   constructor(
     private session: SessionService,
     private router: Router
-  ) { }
-
-  get currentUser$() {
-    return this.session.currentUser$;
+  ) {
+    this.currentProfile$ = this.session.currentProfile$;
   }
 
   logOut() {

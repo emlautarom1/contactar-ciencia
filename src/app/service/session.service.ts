@@ -1,38 +1,39 @@
 import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Auth, authState, signInWithEmailAndPassword, signOut, User } from '@angular/fire/auth';
 import { collection, Firestore, getDocs, limit, query, where } from '@angular/fire/firestore';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { from, Observable, of, shareReplay, switchMap } from 'rxjs';
 import { Profile } from 'src/app/model/domain';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
-  private _currentUser$ = new BehaviorSubject<Profile | null>(null);
+  currentUser$: Observable<User | null>
+  currentProfile$: Observable<Profile | null>
 
-  constructor(private auth: Auth, private store: Firestore) { }
-
-  get currentUser$(): Observable<Profile | null> {
-    return this._currentUser$.asObservable();
+  constructor(private auth: Auth, private store: Firestore) {
+    this.currentUser$ = authState(this.auth);
+    this.currentProfile$ = this.currentUser$.pipe(
+      switchMap(user => user ? from(this.fetchProfileByUserId(user.uid)) : of(null)),
+      shareReplay(1)
+    );
   }
 
-  get currentUser(): Profile | null {
-    return this._currentUser$.value
-  }
-
-  async logIn(email: string, password: string): Promise<Profile> {
-    let credentials = await signInWithEmailAndPassword(this.auth, email, password);
-    let profilesRef = collection(this.store, "profile");
-    let querySnapshot = await getDocs(query(profilesRef, where("uid", "==", credentials.user.uid), limit(1)));
-    let profiles: Profile[] = []
-    querySnapshot.forEach(doc => profiles.push(doc.data() as Profile));
-    let loggedProfile = profiles[0];
-    this._currentUser$.next(loggedProfile);
-    return loggedProfile;
+  async logIn(email: string, password: string) {
+    await signInWithEmailAndPassword(this.auth, email, password);
   }
 
   async logOut() {
     await signOut(this.auth);
-    this._currentUser$.next(null)
+  }
+
+  async fetchProfileByUserId(uid: string): Promise<Profile> {
+    let profilesRef = collection(this.store, "profile");
+    let querySnapshot = await getDocs(query(profilesRef, where("uid", "==", uid), limit(1)));
+    let profiles: Profile[] = []
+    querySnapshot.forEach(doc => profiles.push(doc.data() as Profile));
+
+    if (!profiles[0]) { throw new Error(`No Profile for uid: ${uid}`) }
+    return profiles[0];
   }
 }
