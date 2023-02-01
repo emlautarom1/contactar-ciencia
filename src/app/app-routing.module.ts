@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProfileComponent } from './component/profile/profile.component';
 import { HomeComponent } from './component/home/home.component';
-import { NotFoundComponent } from './component/not-found/not-found.component';
-import { SearchComponent } from './component/search/search.component';
-import { SignUpComponent } from './component/sign-up/sign-up.component';
 import { LoginComponent } from './component/login/login.component';
-import { SettingsComponent } from './component/settings/settings.component';
+import { NotFoundComponent } from './component/not-found/not-found.component';
 import { ParticipateComponent } from './component/participate/participate.component';
+import { ProfileComponent } from './component/profile/profile.component';
+import { SearchComponent } from './component/search/search.component';
+import { SettingsComponent } from './component/settings/settings.component';
+import { SignUpComponent } from './component/sign-up/sign-up.component';
+import { IsLoggedInGuard } from './guard/is-logged-in.guard';
 
 const routes: Routes = [
   {
@@ -36,7 +37,8 @@ const routes: Routes = [
   },
   {
     path: "settings",
-    component: SettingsComponent
+    component: SettingsComponent,
+    canActivate: [IsLoggedInGuard]
   },
   {
     path: "**",
