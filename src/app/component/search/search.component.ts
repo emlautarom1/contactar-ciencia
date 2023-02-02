@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { map, Observable } from 'rxjs';
 import { ValuesService } from 'src/app/service/values.service';
 
 @Component({
@@ -8,8 +9,12 @@ import { ValuesService } from 'src/app/service/values.service';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  searchFormOptions: any;
-  searchForm: any;
+  searchForm!: FormGroup<{
+    science: FormControl<string | null>;
+    specialization: FormControl<string | null>;
+  }>;
+  validSciences!: string[];
+  validSpecializations$!: Observable<string[]>;
 
   constructor(
     private values: ValuesService,
@@ -17,11 +22,14 @@ export class SearchComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.searchFormOptions = [...this.values.allSciences]
     this.searchForm = this.fb.group({
-      science: [null],
-      specialization: [null],
+      science: [null as string | null],
+      specialization: [null as string | null],
     });
+    this.validSciences = this.values.allSciences;
+    this.validSpecializations$ = this.searchForm.controls.science.valueChanges.pipe(
+      map(science => science ? this.values.specializationsFor(science) : [])
+    );
   }
 
 }

@@ -13,13 +13,16 @@
             (change)="searchForm.controls.specialization.reset()"
             class="w-1/2 p-1 text-ellipsis text-white bg-background-dark rounded">
             <option [ngValue]="null">Todo</option>
-            <option *ngFor="let opt of searchFormOptions" [ngValue]="opt">{{opt.title}}</option>
+            <option *ngFor="let science of validSciences" [ngValue]="science">
+              {{ science }}
+            </option>
           </select>
+
           <select formControlName="specialization"
             class="w-1/2 p-1 text-white text-ellipsis bg-background-dark rounded">
             <option [ngValue]="null">Todo</option>
-            <option *ngFor="let spec of searchForm.get('science')?.value?.specializations || []" [ngValue]="spec">
-              {{spec}}
+            <option *ngFor="let spec of (validSpecializations$ | async)" [ngValue]="spec">
+              {{ spec }}
             </option>
           </select>
         </div>
