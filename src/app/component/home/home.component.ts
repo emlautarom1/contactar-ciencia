@@ -7,12 +7,12 @@ import { ValuesService } from 'src/app/service/values.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  ciences: any[] = [];
+  sciences: string[];
 
-  constructor(private values: ValuesService) { }
-
-  ngOnInit(): void {
-    this.ciences = this.values.allSciences;
+  constructor(private values: ValuesService) {
+    this.sciences = this.values.allSciences;
   }
+
+  ngOnInit(): void { }
 
 }
