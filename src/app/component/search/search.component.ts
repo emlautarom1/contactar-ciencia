@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { ValuesService } from 'src/app/service/values.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class SearchComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.searchFormOptions = [...this.values.sciences]
+    this.searchFormOptions = [...this.values.allSciences]
     this.searchForm = this.fb.group({
       science: [null],
       specialization: [null],

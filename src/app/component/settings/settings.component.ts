@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
+import { WorkExperience } from 'src/app/model/domain';
 import { SessionService } from 'src/app/service/session.service';
 import { ValuesService } from 'src/app/service/values.service';
 
@@ -10,98 +11,115 @@ import { ValuesService } from 'src/app/service/values.service';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-  aboutForm!: FormGroup<{ name: FormControl<string | null>; city: FormControl<string | null>; province: FormControl<string | null>; cover: FormControl<string | null>; picture: FormControl<null>; }>;
+  profileForm!: FormGroup<{
+    name: FormControl<string | null>;
+    pictureURL: FormControl<string | null>;
+    contact: FormGroup<{
+      phone: FormControl<string | null>;
+      email: FormControl<string | null>;
+      urls: FormControl<string[] | null>;
+    }>;
+    location: FormGroup<{
+      city: FormControl<string | null>;
+      province: FormControl<string | null>;
+    }>;
+    science: FormControl<string | null>;
+    specialization: FormControl<string | null>;
+    skills: FormControl<string | null>;
+    coverLetter: FormControl<string | null>;
+    workExperience: FormControl<WorkExperience[] | null>;
+  }>;
+  newURL!: FormGroup<{ url: FormControl<string>; }>;
+  newWorkExperience!: FormGroup<{
+    title: FormControl<string>;
+    start_date: FormControl<string>;
+    end_date: FormControl<string>;
+    description: FormControl<string>;
+  }>;
+
   picturePreview!: string;
-
-  // TODO: Rewrite the science->specialization system
-  workForm!: FormGroup<{ science: FormControl<null>; specialization: FormControl<null>; skills: FormControl<string | null>; }>;
-  workFormOptions!: { title: string; specializations: string[]; }[];
-
-  contactForm!: FormGroup<{ phone: FormControl<string>; urls: FormControl<string[]>; }>;
-  newUrlForm!: FormControl<string>;
-
-  experienceForm!: FormControl<{ title: string; start_date: string; end_date: string; description: string; }[]>;
-  newExperienceForm!: FormGroup<{ title: FormControl<string>; start_date: FormControl<string>; end_date: FormControl<string>; description: FormControl<string>; }>;
+  validSpecializations$!: Observable<string[]>;
 
   constructor(
     public session: SessionService,
     private fb: FormBuilder,
-    private values: ValuesService,
+    public values: ValuesService,
   ) { }
 
   ngOnInit() {
-    this.workFormOptions = this.values.sciences;
     this.picturePreview = "assets/avatar/4.webp";
 
-    this.aboutForm = this.fb.group({
-      name: [""],
-      city: [""],
-      province: [""],
-      cover: [""],
-      // TODO: Handle image upload
-      picture: [null],
-    });
-
-    this.workForm = this.fb.group({
-      science: [null],
-      specialization: [null],
-      skills: [""],
-    });
-
-    this.contactForm = this.fb.nonNullable.group({
-      phone: [""],
-      urls: [[] as string[]]
-    });
-    this.newUrlForm = this.fb.nonNullable.control("");
-
-    this.experienceForm = this.fb.nonNullable.control([]);
-    this.newExperienceForm = this.fb.nonNullable.group({
+    let newWorkExperience = this.fb.nonNullable.group({
       title: [""],
       start_date: [""],
       end_date: [""],
       description: [""],
+    })
+    this.newWorkExperience = newWorkExperience;
+
+    let newURL = this.fb.nonNullable.group({
+      url: [""]
     });
+    this.newURL = newURL;
+
+    let profileForm = this.fb.group({
+      name: [""],
+      pictureURL: [""],
+      contact: this.fb.group({
+        phone: [""],
+        email: [""],
+        urls: [[] as string[]]
+      }),
+      location: this.fb.group({
+        city: [""],
+        province: [""]
+      }),
+      science: [""],
+      specialization: [""],
+      skills: [""],
+      coverLetter: [""],
+      workExperience: [[] as WorkExperience[]]
+    });
+    this.profileForm = profileForm;
+
+    this.validSpecializations$ = profileForm.controls.science.valueChanges.pipe(
+      map(science => science ? this.values.specializationsFor(science) : [])
+    );
 
     firstValueFrom(this.session.currentProfile$).then(profile => {
-      if (!profile) return;
-      this.aboutForm.patchValue({
-        name: profile.name,
-        city: profile.location.city,
-        province: profile.location.province,
-        cover: profile.coverLetter
-      });
+      if (!profile) { throw Error("Profile is null") };
+      this.profileForm.patchValue({ ...profile, skills: profile.skills.join(', ') });
     })
   }
 
-  onNewExperience() {
-    // TODO:
-    // - string->Date
-    // - Nullable end_date
-    let newExperience = this.newExperienceForm.getRawValue();
-    let oldExperience = this.experienceForm.getRawValue()
-    let updatedExperience = [newExperience, ...oldExperience];
-    this.experienceForm.patchValue(updatedExperience);
-    this.newExperienceForm.reset();
+  onNewWorkExperience() {
+    let newExperience = this.newWorkExperience.getRawValue();
+    let oldExperience = this.profileForm.controls.workExperience.getRawValue() || [];
+    let workExperience = [newExperience, ...oldExperience];
+    this.profileForm.patchValue({ workExperience })
+
+    this.newWorkExperience.reset();
   }
 
-  removeExperienceAt(index: number) {
-    let experience = [...this.experienceForm.getRawValue()]
-    experience.splice(index, 1);
-    this.experienceForm.patchValue(experience);
+  removeWorkExperienceAt(index: number) {
+    let workExperience = [...this.profileForm.controls.workExperience.getRawValue() || []]
+    workExperience.splice(index, 1);
+    this.profileForm.patchValue({ workExperience });
   }
 
-  onNewUrl() {
-    let newUrl = this.newUrlForm.getRawValue();
-    let oldUrls = this.contactForm.controls.urls.getRawValue()
-    let updatedUrls = [newUrl, ...oldUrls];
-    this.contactForm.controls.urls.patchValue(updatedUrls);
-    this.newUrlForm.reset();
+  onNewURL() {
+    let newURL = this.newURL.getRawValue().url;
+    let oldURLs = this.profileForm.controls.contact.controls.urls.getRawValue() || [];
+    let urls = [newURL, ...oldURLs];
+    this.profileForm.controls.contact.patchValue({ urls });
+
+    this.newURL.reset();
   }
 
   removeUrlAt(index: number) {
-    let urls = [...this.contactForm.controls.urls.getRawValue()]
+    let urls = [...this.profileForm.controls.contact.controls.urls.getRawValue() || []];
     urls.splice(index, 1);
-    this.contactForm.controls.urls.patchValue(urls);
+    this.profileForm.controls.contact.patchValue({ urls });
   }
 
   onSave() {

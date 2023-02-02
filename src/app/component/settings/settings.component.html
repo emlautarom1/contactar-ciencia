@@ -3,8 +3,9 @@
 <div class="flex flex-col items-center bg-background-dark">
   <div class="w-full max-w-4xl px-4 py-8">
 
-    <div class="flex flex-col gap-8 p-4 rounded-xl text-white bg-gradient-to-b from-primary-medium to-background-dark">
-      <form [formGroup]="aboutForm" class="flex flex-col gap-4">
+    <form [formGroup]="profileForm"
+      class="flex flex-col gap-8 p-4 rounded-xl text-white bg-gradient-to-b from-primary-medium to-background-dark">
+      <div class="flex flex-col gap-4">
         <h2 class="font-bold text-xl self-center md:self-start">Acerca de</h2>
 
         <div>
@@ -12,20 +13,20 @@
           <input type="text" name="name" id="name" formControlName="name" class="w-full bg-transparent border-b">
         </div>
 
-        <div>
+        <div formGroupName="location">
           <label for="city" class="block text-sm font-bold mb-1">Ciudad</label>
           <input type="text" name="city" id="city" formControlName="city" class="w-full bg-transparent border-b">
         </div>
 
-        <div>
+        <div formGroupName="location">
           <label for="province" class="block text-sm font-bold mb-1">Provincia</label>
           <input type="text" name="province" id="province" formControlName="province"
             class="w-full bg-transparent border-b">
         </div>
 
         <div>
-          <label for="cover" class="block text-sm font-bold mb-1">Biografía</label>
-          <textarea name="cover" id="cover" formControlName="cover" cols="9999" rows="5"
+          <label for="coverLetter" class="block text-sm font-bold mb-1">Biografía</label>
+          <textarea name="coverLetter" id="coverLetter" formControlName="coverLetter" cols="9999" rows="5"
             class="max-w-full w-full bg-transparent border-b"></textarea>
         </div>
 
@@ -35,24 +36,26 @@
             fotografía</button>
           <input #pictureInput type="file" accept="image/*" name="picture" id="picture" class="hidden">
         </div>
-      </form>
+      </div>
 
-      <form [formGroup]="workForm" class="flex flex-col gap-4">
+      <div class="flex flex-col gap-4">
         <h2 class="font-bold text-xl self-center md:self-start">Competencias</h2>
 
         <div>
           <label for="specialization" class="block text-sm font-bold mb-1">Especialización</label>
           <div class="flex flex-row gap-2">
             <select formControlName="science" name="science" id="science"
-              (change)="workForm.controls.specialization.reset()"
+              (change)="profileForm.controls['specialization'].reset()"
               class="w-1/2 p-1 text-ellipsis text-white bg-background-dark rounded">
-              <option *ngFor="let opt of workFormOptions" [ngValue]="opt">
-                {{opt.title}}
+              <option *ngFor="let science of values.allSciences" [ngValue]="science">
+                {{ science }}
               </option>
             </select>
             <select formControlName="specialization"
               class="w-1/2 p-1 text-white text-ellipsis bg-background-dark rounded">
-              <option>TODO</option>
+              <option *ngFor="let spec of (validSpecializations$ | async)" [ngValue]="spec">
+                {{ spec }}
+              </option>
             </select>
           </div>
         </div>
@@ -63,12 +66,12 @@
           </label>
           <input type="text" name="skills" id="skills" formControlName="skills" class="w-full bg-transparent border-b">
         </div>
-      </form>
+      </div>
 
       <div class="flex flex-col gap-4">
         <h2 class="font-bold text-xl self-center md:self-start">Experiencia Profesional</h2>
 
-        <form [formGroup]="newExperienceForm" (ngSubmit)="onNewExperience()" class=" flex flex-col gap-2">
+        <form [formGroup]="newWorkExperience" (ngSubmit)="onNewWorkExperience()" class="flex flex-col gap-2">
           <div>
             <label for="title" class="block text-sm font-bold mb-1">Titulo</label>
             <input type="text" name="title" id="title" formControlName="title" class="w-full bg-transparent border-b">
@@ -97,46 +100,46 @@
         </form>
 
         <div class="flex flex-col gap-2">
-          <div *ngFor="let work of experienceForm.value; let i = index" class="flex flex-col gap-2 text-sm">
-            <h3 class="">{{ work.title }} </h3>
-            <span class="font-light">{{ work.start_date }} &ndash; {{ work.end_date }}</span>
-            <p class="italic">&ldquo;{{ work.description }}&rdquo;</p>
-            <button type="button" (click)="removeExperienceAt(i)" class="self-end px-2 rounded bg-red-500">
+          <div *ngFor="let we of profileForm.controls['workExperience'].value; let i = index"
+            class="flex flex-col gap-2 text-sm">
+            <h3 class="">{{ we.title }} </h3>
+            <span class="font-light">{{ we.start_date }} &ndash; {{ we.end_date }}</span>
+            <p class="italic">&ldquo;{{ we.description }}&rdquo;</p>
+            <button type="button" (click)="removeWorkExperienceAt(i)" class="self-end px-2 rounded bg-red-500">
               Eliminar
             </button>
           </div>
         </div>
       </div>
 
-      <form [formGroup]="contactForm" class="flex flex-col gap-4">
+      <div class="flex flex-col gap-4">
         <h2 class="font-bold text-xl self-center md:self-start">Contacto</h2>
 
-        <div>
+        <div formGroupName="contact">
           <label for="phone" class="block text-sm font-bold mb-1">Teléfono</label>
           <input type="tel" name="phone" id="phone" formControlName="phone" class="w-full bg-transparent border-b">
         </div>
 
         <div>
           <label for="url" class="block text-sm font-bold mb-1">Sitios Personales</label>
-          <form class="flex flex-row" (ngSubmit)="onNewUrl()">
-            <input type="url" name="url" id="url" [formControl]="newUrlForm"
-              class="grow-1 w-full bg-transparent border-b">
+          <form [formGroup]="newURL" class="flex flex-row" (ngSubmit)="onNewURL()">
+            <input type="url" name="url" id="url" formControlName="url" class="grow-1 w-full bg-transparent border-b">
             <button type="submit" class="ml-4 grow-0 bg-primary-light px-2 rounded">&plus;</button>
           </form>
         </div>
 
         <ul class="flex flex-col gap-2">
-          <li *ngFor="let url of contactForm.controls.urls.value; let i = index" class="flex flex-row">
+          <li *ngFor="let url of profileForm.controls.contact.controls.urls.value; let i = index" class="flex flex-row">
             <a [href]="url" class="grow-1 w-full underline">{{ url }}</a>
             <button type="button" (click)="removeUrlAt(i)" class="ml-4 grow-0 bg-red-500 px-2 rounded">&#8722;</button>
           </li>
         </ul>
-      </form>
+      </div>
 
       <button type="button" (click)="onSave()"
         class="px-6 py-1 self-center md:self-end text-lg bg-primary-light rounded text-black">
         Guardar Cambios
       </button>
-    </div>
+    </form>
   </div>
 </div>
