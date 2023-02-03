@@ -18,6 +18,7 @@ import { ProfileComponent } from './component/profile/profile.component';
 import { SearchComponent } from './component/search/search.component';
 import { SettingsComponent } from './component/settings/settings.component';
 import { SignUpComponent } from './component/sign-up/sign-up.component';
+import { ProgressComponent } from './component/progress/progress.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { SignUpComponent } from './component/sign-up/sign-up.component';
     NavbarComponent,
     SettingsComponent,
     ParticipateComponent,
+    ProgressComponent,
   ],
   imports: [
     HttpClientModule,
