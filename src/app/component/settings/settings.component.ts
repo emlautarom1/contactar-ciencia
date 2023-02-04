@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { WorkExperience } from 'src/app/model/domain';
 import { SessionService } from 'src/app/service/session.service';
@@ -12,22 +12,22 @@ import { ValuesService } from 'src/app/service/values.service';
 })
 export class SettingsComponent implements OnInit {
   profileForm!: FormGroup<{
-    name: FormControl<string | null>;
-    pictureURL: FormControl<string | null>;
+    name: FormControl<string>;
+    pictureURL: FormControl<string>;
     contact: FormGroup<{
-      phone: FormControl<string | null>;
-      email: FormControl<string | null>;
-      urls: FormControl<string[] | null>;
+      phone: FormControl<string>;
+      email: FormControl<string>;
+      urls: FormControl<string[]>;
     }>;
     location: FormGroup<{
-      city: FormControl<string | null>;
-      province: FormControl<string | null>;
+      city: FormControl<string>;
+      province: FormControl<string>;
     }>;
-    science: FormControl<string | null>;
-    specialization: FormControl<string | null>;
-    skills: FormControl<string | null>;
-    coverLetter: FormControl<string | null>;
-    workExperience: FormControl<WorkExperience[] | null>;
+    science: FormControl<string>;
+    specialization: FormControl<string>;
+    skills: FormControl<string>;
+    coverLetter: FormControl<string>;
+    workExperience: FormControl<WorkExperience[]>;
   }>;
   newURL!: FormGroup<{ url: FormControl<string>; }>;
   newWorkExperience!: FormGroup<{
@@ -50,7 +50,7 @@ export class SettingsComponent implements OnInit {
     this.picturePreview = "assets/avatar/4.webp";
 
     let newWorkExperience = this.fb.nonNullable.group({
-      title: [""],
+      title: ["", Validators.maxLength(50)],
       start_date: [""],
       end_date: [""],
       description: [""],
@@ -62,23 +62,23 @@ export class SettingsComponent implements OnInit {
     });
     this.newURL = newURL;
 
-    let profileForm = this.fb.group({
-      name: [""],
+    let profileForm = this.fb.nonNullable.group({
+      name: ["", [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
       pictureURL: [""],
-      contact: this.fb.group({
-        phone: [""],
-        email: [""],
-        urls: [[] as string[]]
+      contact: this.fb.nonNullable.group({
+        phone: ["", [Validators.required, Validators.maxLength(50)]],
+        email: ["", [Validators.required, Validators.maxLength(50)]],
+        urls: [[] as string[], [Validators.maxLength(10)]]
       }),
-      location: this.fb.group({
-        city: [""],
-        province: [""]
+      location: this.fb.nonNullable.group({
+        city: ["", [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+        province: ["", [Validators.required, Validators.minLength(4), Validators.maxLength(50)]]
       }),
-      science: [""],
-      specialization: [""],
-      skills: [""],
-      coverLetter: [""],
-      workExperience: [[] as WorkExperience[]]
+      science: ["", [Validators.required, this.values.isValidScienceValidator]],
+      specialization: ["", [Validators.required, this.values.isValidSpecializationValidator]],
+      skills: ["", [Validators.required, this.skillsValidator({ minCount: 4, maxCount: 8, skill: { minLength: 4, maxLength: 20 } })]],
+      coverLetter: ["", [Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
+      workExperience: [[] as WorkExperience[], [Validators.maxLength(10)]]
     });
     this.profileForm = profileForm;
 
@@ -89,7 +89,7 @@ export class SettingsComponent implements OnInit {
     firstValueFrom(this.session.currentProfile$).then(profile => {
       if (!profile) { throw Error("Profile is null") };
       this.profileForm.patchValue({ ...profile, skills: profile.skills.join(', ') });
-    })
+    });
   }
 
   onNewWorkExperience() {
@@ -125,5 +125,34 @@ export class SettingsComponent implements OnInit {
   onSave() {
     // Validate changes
     // Handle profile changes in Firebase
+  }
+
+  skillsValidator(args: { minCount?: number, maxCount?: 8, skill?: { minLength?: number, maxLength?: number } }) {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value || (control.value instanceof String)) {
+        return { skills: "Skills are not a valid String" };
+      }
+      let skills = (control.value as string).split(',').map(skill => skill.trim());
+
+      if (args.minCount && skills.length < args.minCount) {
+        return { skills: `Required at least ${args.minCount} skills` }
+      }
+
+      if (args.maxCount && skills.length > args.maxCount) {
+        return { skills: `Accepted at most ${args.minCount} skills` }
+      }
+
+      const minLength = args.skill?.minLength
+      if (minLength && skills.some(s => s.length < minLength)) {
+        return { skills: `Skill length is less than ${minLength}` }
+      }
+
+      const maxLength = args.skill?.maxLength
+      if (maxLength && skills.some(s => s.length > maxLength)) {
+        return { skills: `Skill length is greater than than ${maxLength}` }
+      }
+
+      return null;
+    }
   }
 }

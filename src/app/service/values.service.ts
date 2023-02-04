@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,24 @@ export class ValuesService {
 
   specializationsFor(science: string): string[] {
     return this.allSpecializations[this.allSciences.indexOf(science)] || [];
+  }
+
+  isValidScienceValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value || this.allSciences.indexOf(control.value) < 0) {
+        return { 'science': true }
+      }
+      return null;
+    }
+  }
+
+  isValidSpecializationValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value || this.allSpecializations.flat().indexOf(control.value) < 0) {
+        return { 'science': true }
+      }
+      return null;
+    }
   }
 
   allSciences = [

@@ -10,24 +10,29 @@
 
         <div>
           <label for="name" class="block text-sm font-bold mb-1">Nombre</label>
-          <input type="text" name="name" id="name" formControlName="name" class="w-full bg-transparent border-b">
+          <input type="text" name="name" id="name" formControlName="name" class="w-full bg-transparent border-b"
+            [class.border-red-500]="profileForm.controls.name.errors != null">
         </div>
 
         <div formGroupName="location">
           <label for="city" class="block text-sm font-bold mb-1">Ciudad</label>
-          <input type="text" name="city" id="city" formControlName="city" class="w-full bg-transparent border-b">
+          <input type="text" name="city" id="city" formControlName="city" class="w-full bg-transparent border-b"
+            [class.border-red-500]="profileForm.controls.location.controls.city.errors != null">
         </div>
 
         <div formGroupName="location">
           <label for="province" class="block text-sm font-bold mb-1">Provincia</label>
           <input type="text" name="province" id="province" formControlName="province"
-            class="w-full bg-transparent border-b">
+            class="w-full bg-transparent border-b"
+            [class.border-red-500]="profileForm.controls.location.controls.province.errors != null">
         </div>
 
         <div>
           <label for="coverLetter" class="block text-sm font-bold mb-1">Biografía</label>
           <textarea name="coverLetter" id="coverLetter" formControlName="coverLetter" cols="9999" rows="5"
-            class="max-w-full w-full bg-transparent border-b"></textarea>
+            class="max-w-full w-full bg-transparent border-b"
+            [class.border-red-500]="profileForm.controls.coverLetter.errors != null">
+          </textarea>
         </div>
 
         <div class="flex flex-row items-center gap-4">
@@ -45,14 +50,20 @@
           <label for="specialization" class="block text-sm font-bold mb-1">Especialización</label>
           <div class="flex flex-row gap-2">
             <select formControlName="science" name="science" id="science"
-              (change)="profileForm.controls['specialization'].reset()"
-              class="w-1/2 p-1 text-ellipsis text-white bg-background-dark rounded">
+              (change)="profileForm.controls.specialization.reset()"
+              class="w-1/2 p-1 text-ellipsis text-white bg-background-dark rounded" [ngClass]="
+                profileForm.controls.science.errors
+                  ? 'border border-red-500'
+                  : 'border border-transparent'">
               <option *ngFor="let science of values.allSciences" [ngValue]="science">
                 {{ science }}
               </option>
             </select>
             <select formControlName="specialization"
-              class="w-1/2 p-1 text-white text-ellipsis bg-background-dark rounded">
+              class="w-1/2 p-1 text-white text-ellipsis bg-background-dark rounded" [ngClass]="
+                profileForm.controls.specialization.errors
+                  ? 'border border-red-500'
+                  : 'border border-transparent'">
               <option *ngFor="let spec of (validSpecializations$ | async)" [ngValue]="spec">
                 {{ spec }}
               </option>
@@ -64,7 +75,8 @@
           <label for="skills" class="block text-sm font-bold mb-1">
             Habilidades y/o Capacidades<span class="font-normal italic"> (al menos 4, separadas por comas)</span>
           </label>
-          <input type="text" name="skills" id="skills" formControlName="skills" class="w-full bg-transparent border-b">
+          <input type="text" name="skills" id="skills" formControlName="skills" class="w-full bg-transparent border-b"
+            [class.border-red-500]="profileForm.controls.skills.errors != null">
         </div>
       </div>
 
