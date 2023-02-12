@@ -27,13 +27,12 @@ export class SessionService {
     await signOut(this.auth);
   }
 
-  async fetchProfileByUserId(uid: string): Promise<Profile> {
+  async fetchProfileByUserId(uid: string): Promise<Profile | null> {
     let profilesRef = collection(this.store, "profile");
     let querySnapshot = await getDocs(query(profilesRef, where("uid", "==", uid), limit(1)));
-    let profiles: Profile[] = []
+    let profiles: Profile[] = [];
     querySnapshot.forEach(doc => profiles.push(doc.data() as Profile));
 
-    if (!profiles[0]) { throw new Error(`No Profile for uid: ${uid}`) }
     return profiles[0];
   }
 }
