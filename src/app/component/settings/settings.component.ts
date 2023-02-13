@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { firstValueFrom, map, Observable } from 'rxjs';
-import { WorkExperience } from 'src/app/model/domain';
+import { Profile, WorkExperience } from 'src/app/model/domain';
 import { SessionService } from 'src/app/service/session.service';
 import { ValuesService } from 'src/app/service/values.service';
 
@@ -39,11 +39,15 @@ export class SettingsComponent implements OnInit {
 
   picturePreview!: string;
   validSpecializations$!: Observable<string[]>;
+  userId!: string;
+
+  isLoading: boolean = false;
+  savedChanges: boolean = false;
 
   constructor(
     public session: SessionService,
-    private fb: FormBuilder,
     public values: ValuesService,
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit() {
@@ -88,6 +92,7 @@ export class SettingsComponent implements OnInit {
 
     firstValueFrom(this.session.currentProfile$).then(profile => {
       if (!profile) { throw Error("Profile is null") };
+      this.userId = profile.uid;
       this.profileForm.patchValue({ ...profile, skills: profile.skills.join(', ') });
     });
   }
@@ -122,9 +127,27 @@ export class SettingsComponent implements OnInit {
     this.profileForm.controls.contact.patchValue({ urls });
   }
 
-  onSave() {
-    // Validate changes
-    // Handle profile changes in Firebase
+  async onSave() {
+    if (!this.profileForm.valid) { return }
+
+    this.isLoading = true;
+
+    let value = this.profileForm.getRawValue();
+    let updatedProfile: Profile = {
+      ...value,
+      uid: this.userId,
+      skills: value.skills.split(',').map(s => s.trim())
+    };
+
+    await this.session.updateProfile(updatedProfile);
+
+    this.profileForm.markAsPristine();
+    this.newURL.reset();
+    this.newWorkExperience.reset();
+
+    this.isLoading = false;
+    this.savedChanges = true;
+    setTimeout(() => this.savedChanges = false, 2000);
   }
 
   skillsValidator(args: { minCount?: number, maxCount?: 8, skill?: { minLength?: number, maxLength?: number } }) {

@@ -1,9 +1,11 @@
+<app-progress [visible]="isLoading"></app-progress>
+
 <app-navbar></app-navbar>
 
 <div class="flex flex-col items-center bg-background-dark">
   <div class="w-full max-w-4xl px-4 py-8">
 
-    <form [formGroup]="profileForm"
+    <form [formGroup]="profileForm" (ngSubmit)="onSave()"
       class="flex flex-col gap-8 p-4 rounded-xl text-white bg-gradient-to-b from-primary-medium to-background-dark">
       <div class="flex flex-col gap-4">
         <h2 class="font-bold text-xl self-center md:self-start">Acerca de</h2>
@@ -148,10 +150,15 @@
         </ul>
       </div>
 
-      <button type="button" (click)="onSave()"
-        class="px-6 py-1 self-center md:self-end text-lg bg-primary-light rounded text-black">
-        Guardar Cambios
-      </button>
+      <div class="self-center md:self-end flex flex-col gap-2 items-center">
+        <button type="submit" class="px-6 py-1 text-lg bg-primary-light rounded text-black">
+          Guardar Cambios
+        </button>
+
+        <span class="text-sm text-green-600" *ngIf="savedChanges">
+          Se han guardado los cambios
+        </span>
+      </div>
     </form>
   </div>
 </div>
