@@ -44,7 +44,7 @@ export class SessionService {
     let querySnapshot = await getDocs(query(profilesRef, where("uid", "==", profile.uid), limit(1)));
     let queryDocumentSnapshot = forEachToArray(querySnapshot);
 
-    updateDoc(queryDocumentSnapshot[0].ref, { ...profile });
+    await updateDoc(queryDocumentSnapshot[0].ref, { ...profile });
   }
 }
 
