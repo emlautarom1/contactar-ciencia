@@ -39,8 +39,10 @@
 
         <div class="flex flex-row items-center gap-4">
           <img [src]="picturePreview" alt="avatar" class="w-16 md:w-24 rounded-full">
-          <button class="px-4 py-2 rounded bg-primary-light text-black" (click)="pictureInput.click()">Elegir
-            fotografía</button>
+          <!-- TODO: Handle image upload -->
+          <button class="px-4 py-2 rounded bg-primary-light text-black">
+            Elegir fotografía
+          </button>
           <input #pictureInput type="file" accept="image/*" name="picture" id="picture" class="hidden">
         </div>
       </div>
