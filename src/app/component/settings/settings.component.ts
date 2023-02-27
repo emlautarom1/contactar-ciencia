@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { Profile, WorkExperience } from 'src/app/model/domain';
+import { PictureService } from 'src/app/service/picture.service';
 import { SessionService } from 'src/app/service/session.service';
 import { ValuesService } from 'src/app/service/values.service';
 
@@ -29,6 +30,7 @@ export class SettingsComponent implements OnInit {
     coverLetter: FormControl<string>;
     workExperience: FormControl<WorkExperience[]>;
   }>;
+  newPicture!: FormGroup<{ file: FormControl<File | null>; }>
   newURL!: FormGroup<{ url: FormControl<string>; }>;
   newWorkExperience!: FormGroup<{
     title: FormControl<string>;
@@ -46,6 +48,7 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     public session: SessionService,
+    public pictures: PictureService,
     public values: ValuesService,
     private fb: FormBuilder,
   ) { }
@@ -65,6 +68,11 @@ export class SettingsComponent implements OnInit {
       url: [""]
     });
     this.newURL = newURL;
+
+    let newPicture = this.fb.group({
+      file: [null as File | null]
+    });
+    this.newPicture = newPicture;
 
     let profileForm = this.fb.nonNullable.group({
       name: ["", [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
@@ -95,6 +103,15 @@ export class SettingsComponent implements OnInit {
       this.userId = profile.uid;
       this.profileForm.patchValue({ ...profile, skills: profile.skills.join(', ') });
     });
+  }
+
+  onPictureEvent(event: Event) {
+    const files = (event.target as HTMLInputElement).files;
+    if (!files || files.length < 1) { return }
+
+    this.newPicture.patchValue({ file: files[0] });
+
+    // TODO: Handle placeholder
   }
 
   onNewWorkExperience() {
@@ -131,6 +148,12 @@ export class SettingsComponent implements OnInit {
     if (!this.profileForm.valid) { return }
 
     this.isLoading = true;
+
+    let newPicture = this.newPicture.controls.file.getRawValue();
+    if (newPicture) {
+      let pictureURL = await this.pictures.uploadPicture(this.userId, newPicture);
+      this.profileForm.patchValue({ pictureURL });
+    }
 
     let value = this.profileForm.getRawValue();
     let updatedProfile: Profile = {
