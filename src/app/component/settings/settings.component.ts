@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { Profile, WorkExperience } from 'src/app/model/domain';
 import { PictureService } from 'src/app/service/picture.service';
@@ -39,7 +40,7 @@ export class SettingsComponent implements OnInit {
     description: FormControl<string>;
   }>;
 
-  picturePreview!: string;
+  picturePreview!: SafeResourceUrl;
   validSpecializations$!: Observable<string[]>;
   userId!: string;
 
@@ -49,12 +50,13 @@ export class SettingsComponent implements OnInit {
   constructor(
     public session: SessionService,
     public pictures: PictureService,
+    public sanitizer: DomSanitizer,
     public values: ValuesService,
     private fb: FormBuilder,
   ) { }
 
   ngOnInit() {
-    this.picturePreview = "assets/avatar/4.webp";
+    this.picturePreview = this.sanitizer.bypassSecurityTrustResourceUrl("assets/avatar/placeholder.png");
 
     let newWorkExperience = this.fb.nonNullable.group({
       title: ["", Validators.maxLength(50)],
@@ -101,6 +103,7 @@ export class SettingsComponent implements OnInit {
     firstValueFrom(this.session.currentProfile$).then(profile => {
       if (!profile) { throw Error("Profile is null") };
       this.userId = profile.uid;
+      this.picturePreview = profile.pictureURL;
       this.profileForm.patchValue({ ...profile, skills: profile.skills.join(', ') });
     });
   }
@@ -109,9 +112,9 @@ export class SettingsComponent implements OnInit {
     const files = (event.target as HTMLInputElement).files;
     if (!files || files.length < 1) { return }
 
-    this.newPicture.patchValue({ file: files[0] });
-
-    // TODO: Handle placeholder
+    let file = files[0]
+    this.newPicture.patchValue({ file });
+    this.picturePreview = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(file));
   }
 
   onNewWorkExperience() {
