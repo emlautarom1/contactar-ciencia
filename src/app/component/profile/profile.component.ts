@@ -12,7 +12,7 @@ export class ProfileComponent {
   profile: Profile = {
     uid: "gYEBMGEXpkawfzX522ZviQjoBX62",
     name: "Patricia Estela Verdes",
-    pictureURL: "assets/avatar/4.webp",
+    pictureURL: "assets/avatar/placeholder.png",
     contact: {
       phone: "266-404-2222",
       email: "peverdes@unsl.edu.ar",
