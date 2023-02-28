@@ -56,7 +56,7 @@ export class SettingsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.picturePreview = this.sanitizer.bypassSecurityTrustResourceUrl("assets/avatar/placeholder.png");
+    this.picturePreview = "assets/avatar/placeholder.png";
 
     let newWorkExperience = this.fb.nonNullable.group({
       title: ["", Validators.maxLength(50)],
@@ -148,7 +148,7 @@ export class SettingsComponent implements OnInit {
   }
 
   async onSave() {
-    if (!this.profileForm.valid) { return }
+    if (!this.profileForm.valid || this.isLoading) { return }
 
     this.isLoading = true;
 
