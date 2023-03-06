@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { firstValueFrom, map, Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { firstValueFrom, map } from 'rxjs';
 import { Profile, WorkExperience } from 'src/app/model/domain';
 import { PictureService } from 'src/app/service/picture.service';
+import { ProfileService } from 'src/app/service/profile.service';
 import { SessionService } from 'src/app/service/session.service';
 import { ValuesService } from 'src/app/service/values.service';
 
@@ -13,95 +15,62 @@ import { ValuesService } from 'src/app/service/values.service';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-  profileForm!: FormGroup<{
-    name: FormControl<string>;
-    pictureURL: FormControl<string>;
-    contact: FormGroup<{
-      phone: FormControl<string>;
-      email: FormControl<string>;
-      urls: FormControl<string[]>;
-    }>;
-    location: FormGroup<{
-      city: FormControl<string>;
-      province: FormControl<string>;
-    }>;
-    science: FormControl<string>;
-    specialization: FormControl<string>;
-    skills: FormControl<string>;
-    coverLetter: FormControl<string>;
-    workExperience: FormControl<WorkExperience[]>;
-  }>;
-  newPicture!: FormGroup<{ file: FormControl<File | null>; }>
-  newURL!: FormGroup<{ url: FormControl<string>; }>;
-  newWorkExperience!: FormGroup<{
-    title: FormControl<string>;
-    start_date: FormControl<string>;
-    end_date: FormControl<string>;
-    description: FormControl<string>;
-  }>;
+  profileForm = this.fb.nonNullable.group({
+    name: ["", [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+    pictureURL: [""],
+    contact: this.fb.nonNullable.group({
+      phone: ["", [Validators.required, Validators.maxLength(50)]],
+      email: ["", [Validators.required, Validators.maxLength(50)]],
+      urls: [[] as string[], [Validators.maxLength(10)]]
+    }),
+    location: this.fb.nonNullable.group({
+      city: ["", [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+      province: ["", [Validators.required, Validators.minLength(4), Validators.maxLength(50)]]
+    }),
+    science: ["", [Validators.required, this.values.isValidScienceValidator]],
+    specialization: ["", [Validators.required, this.values.isValidSpecializationValidator]],
+    skills: ["", [Validators.required, this.skillsValidator({ minCount: 4, maxCount: 8, skill: { minLength: 4, maxLength: 20 } })]],
+    coverLetter: ["", [Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
+    workExperience: [[] as WorkExperience[], [Validators.maxLength(10)]]
+  });
 
-  picturePreview!: SafeResourceUrl;
-  validSpecializations$!: Observable<string[]>;
+  newPicture = this.fb.group({ file: [null as File | null] });
+  newURL = this.fb.nonNullable.group({ url: [""] });
+  newWorkExperience = this.fb.nonNullable.group({
+    title: ["", Validators.maxLength(50)],
+    start_date: [""],
+    end_date: [""],
+    description: [""],
+  });
+
+  allSciences = this.values.allSciences;
+  validSpecializations$ = this.profileForm.controls.science.valueChanges.pipe(
+    map(science => science ? this.values.specializationsFor(science) : [])
+  );
+
+  picturePreview: SafeResourceUrl = "assets/avatar/placeholder.png";
   userId!: string;
 
-  isLoading: boolean = false;
-  savedChanges: boolean = false;
+  isLoading = false;
+  savedChanges = false;
 
   constructor(
-    public session: SessionService,
-    public pictures: PictureService,
-    public sanitizer: DomSanitizer,
-    public values: ValuesService,
+    private session: SessionService,
+    private ps: ProfileService,
+    private pictures: PictureService,
+    private sanitizer: DomSanitizer,
+    private values: ValuesService,
     private fb: FormBuilder,
+    private router: Router,
   ) { }
 
   ngOnInit() {
-    this.picturePreview = "assets/avatar/placeholder.png";
-
-    let newWorkExperience = this.fb.nonNullable.group({
-      title: ["", Validators.maxLength(50)],
-      start_date: [""],
-      end_date: [""],
-      description: [""],
-    })
-    this.newWorkExperience = newWorkExperience;
-
-    let newURL = this.fb.nonNullable.group({
-      url: [""]
-    });
-    this.newURL = newURL;
-
-    let newPicture = this.fb.group({
-      file: [null as File | null]
-    });
-    this.newPicture = newPicture;
-
-    let profileForm = this.fb.nonNullable.group({
-      name: ["", [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-      pictureURL: [""],
-      contact: this.fb.nonNullable.group({
-        phone: ["", [Validators.required, Validators.maxLength(50)]],
-        email: ["", [Validators.required, Validators.maxLength(50)]],
-        urls: [[] as string[], [Validators.maxLength(10)]]
-      }),
-      location: this.fb.nonNullable.group({
-        city: ["", [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-        province: ["", [Validators.required, Validators.minLength(4), Validators.maxLength(50)]]
-      }),
-      science: ["", [Validators.required, this.values.isValidScienceValidator]],
-      specialization: ["", [Validators.required, this.values.isValidSpecializationValidator]],
-      skills: ["", [Validators.required, this.skillsValidator({ minCount: 4, maxCount: 8, skill: { minLength: 4, maxLength: 20 } })]],
-      coverLetter: ["", [Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
-      workExperience: [[] as WorkExperience[], [Validators.maxLength(10)]]
-    });
-    this.profileForm = profileForm;
-
-    this.validSpecializations$ = profileForm.controls.science.valueChanges.pipe(
-      map(science => science ? this.values.specializationsFor(science) : [])
-    );
-
     firstValueFrom(this.session.currentProfile$).then(profile => {
-      if (!profile) { throw Error("Profile is null") };
+      if (!profile) {
+        this.router.navigate(["/"]);
+        return;
+      };
+
       this.userId = profile.uid;
       this.picturePreview = profile.pictureURL;
       this.profileForm.patchValue({ ...profile, skills: profile.skills.join(', ') });
@@ -165,7 +134,7 @@ export class SettingsComponent implements OnInit {
       skills: value.skills.split(',').map(s => s.trim())
     };
 
-    await this.session.updateProfile(updatedProfile);
+    await this.ps.updateProfile(updatedProfile);
 
     this.profileForm.markAsPristine();
     this.newURL.reset();

@@ -1,8 +1,9 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Auth, authState, signInWithEmailAndPassword, signOut, User } from '@angular/fire/auth';
-import { collection, DocumentData, Firestore, getDocs, limit, onSnapshot, query, QueryDocumentSnapshot, QuerySnapshot, updateDoc, where } from '@angular/fire/firestore';
-import { map, Observable, of, OperatorFunction, shareReplay, switchMap, tap } from 'rxjs';
+import { collection, DocumentData, Firestore, limit, onSnapshot, query, QueryDocumentSnapshot, QuerySnapshot, where } from '@angular/fire/firestore';
+import { map, Observable, of, shareReplay, switchMap } from 'rxjs';
 import { Profile } from 'src/app/model/domain';
+import { forEachToArray, runInZone } from 'src/app/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +12,25 @@ export class SessionService {
   currentUser$!: Observable<User | null>
   currentProfile$!: Observable<Profile | null>
 
-  constructor(private auth: Auth, private store: Firestore, private ngZone: NgZone) {
+  constructor(
+    private auth: Auth,
+    private store: Firestore,
+    private ngZone: NgZone
+  ) {
     this.currentUser$ = authState(this.auth);
     this.currentProfile$ = this.currentUser$.pipe(
       switchMap(user => user ? this.fetchProfileRef(user.uid) : of(null)),
       map(snapshot => snapshot ? snapshot.data() as Profile : null),
       shareReplay(1),
     );
+  }
+
+  async logIn(email: string, password: string) {
+    await signInWithEmailAndPassword(this.auth, email, password);
+  }
+
+  async logOut() {
+    await signOut(this.auth);
   }
 
   private fetchProfileRef(uid: string): Observable<QueryDocumentSnapshot<DocumentData>> {
@@ -30,37 +43,4 @@ export class SessionService {
         map(x => x[0]),
       );
   }
-
-  async logIn(email: string, password: string) {
-    await signInWithEmailAndPassword(this.auth, email, password);
-  }
-
-  async logOut() {
-    await signOut(this.auth);
-  }
-
-  async updateProfile(profile: Profile) {
-    let profilesRef = collection(this.store, "profile");
-    let querySnapshot = await getDocs(query(profilesRef, where("uid", "==", profile.uid), limit(1)));
-    let queryDocumentSnapshot = forEachToArray(querySnapshot);
-
-    await updateDoc(queryDocumentSnapshot[0].ref, { ...profile });
-  }
-}
-
-function forEachToArray<T>(arg: { forEach: (callback: (e: T) => void) => void }): T[] {
-  let elements: T[] = []
-  arg.forEach(e => { elements.push(e); });
-  return elements;
-}
-
-export function runInZone<T>(zone: NgZone): OperatorFunction<T, T> {
-  return (source) => {
-    return new Observable(observer => {
-      const next = (value: T) => zone.run(() => observer.next(value));
-      const error = (e: any) => zone.run(() => observer.error(e));
-      const complete = () => zone.run(() => observer.complete());
-      return source.subscribe({ next, error, complete });
-    });
-  };
 }

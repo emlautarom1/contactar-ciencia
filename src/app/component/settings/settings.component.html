@@ -59,7 +59,7 @@
                 profileForm.controls.science.errors
                   ? 'border border-red-500'
                   : 'border border-transparent'">
-              <option *ngFor="let science of values.allSciences" [ngValue]="science">
+              <option *ngFor="let science of allSciences" [ngValue]="science">
                 {{ science }}
               </option>
             </select>
