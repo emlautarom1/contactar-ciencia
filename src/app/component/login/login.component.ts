@@ -10,8 +10,8 @@ import { SessionService } from 'src/app/service/session.service';
 })
 export class LoginComponent implements OnInit {
   logInForm = this.fb.nonNullable.group({
-    email: ['', Validators.minLength(4)],
-    password: ['', Validators.minLength(8)],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
   });
   logInError: string | null = null;
   isLoading: boolean = false;
@@ -27,12 +27,12 @@ export class LoginComponent implements OnInit {
   async onLogIn() {
     this.isLoading = true;
     try {
-      if (!this.logInForm.valid) { throw new Error('Invalid form') }
+      if (!this.logInForm.valid) { return }
       let { email, password } = this.logInForm.getRawValue();
       await this.session.logIn(email, password);
       this.router.navigate(["/"]);
     } catch (error) {
-      this.logInError = 'Email o contraseña incorrectos';
+      this.logInError = (error as Error).message;
     } finally {
       this.isLoading = false;
     }

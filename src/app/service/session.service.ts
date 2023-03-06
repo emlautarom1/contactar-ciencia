@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Auth, authState, signInWithEmailAndPassword, signOut, User } from '@angular/fire/auth';
+import { Auth, AuthErrorCodes, authState, signInWithEmailAndPassword, signOut, User } from '@angular/fire/auth';
 import { collection, DocumentData, Firestore, limit, onSnapshot, query, QueryDocumentSnapshot, QuerySnapshot, where } from '@angular/fire/firestore';
 import { map, Observable, of, shareReplay, switchMap } from 'rxjs';
 import { Profile } from 'src/app/model/domain';
@@ -26,7 +26,15 @@ export class SessionService {
   }
 
   async logIn(email: string, password: string) {
-    await signInWithEmailAndPassword(this.auth, email, password);
+    try {
+      await signInWithEmailAndPassword(this.auth, email, password);
+    } catch (error: any) {
+      switch (error?.code) {
+        case AuthErrorCodes.USER_DELETED: throw new Error("Email inválido");
+        case AuthErrorCodes.INVALID_PASSWORD: throw new Error("Contraseña inválida");
+        default: throw new Error("Error al iniciar sesión");
+      }
+    };
   }
 
   async logOut() {
