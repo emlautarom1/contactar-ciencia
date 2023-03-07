@@ -16,10 +16,12 @@
     <div class="grow flex flex-col gap-8 p-16 bg-background-light">
       <form [formGroup]="logInForm" (ngSubmit)="onLogIn()" class="flex flex-col gap-4">
         <input type="email" name="email" id="email" placeholder="Email" formControlName="email"
-          class="border-b-2 border-white bg-transparent outline-white p-2">
+          class="border-b-2 border-white bg-transparent outline-white p-2"
+          [class.border-red-500]="logInForm.controls.email.errors != null">
 
         <input type="password" name="password" id="password" placeholder="Contraseña" formControlName="password"
-          class="border-b-2 border-white bg-transparent outline-white p-2">
+          class="border-b-2 border-white bg-transparent outline-white p-2"
+          [class.border-red-500]="logInForm.controls.password.errors != null">
 
         <div *ngIf="logInError" class="text-sm text-red-500">{{ logInError }}</div>
 

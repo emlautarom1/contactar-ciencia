@@ -25,11 +25,12 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void { }
 
   async onLogIn() {
+    if (this.logInForm.invalid) { return }
+
     this.isLoading = true;
     try {
-      if (!this.logInForm.valid) { return }
       let { email, password } = this.logInForm.getRawValue();
-      await this.session.logIn(email, password);
+      await this.session.logIn(email.trim(), password.trim());
       this.router.navigate(["/"]);
     } catch (error) {
       this.logInError = (error as Error).message;
