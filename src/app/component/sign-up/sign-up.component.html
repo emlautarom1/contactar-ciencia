@@ -1,4 +1,6 @@
 <div class="flex flex-col items-center h-screen bg-background-dark">
+  <app-progress [visible]="isLoading"></app-progress>
+
   <div class="max-w-3xl h-full flex flex-col text-white">
 
     <div class="bg-background-dark px-12 pt-10">
@@ -12,20 +14,26 @@
     </div>
 
     <div class="grow flex flex-col gap-8 p-16 h-full bg-background-light">
-      <form class="flex flex-col gap-4">
-        <input type="text" name="" id="full-name" placeholder="Nombre completo"
-          class="border-b-2 border-white bg-transparent rounded-t outline-white p-2">
+      <form [formGroup]="signupForm" class="flex flex-col gap-4" (ngSubmit)="onSubmit()">
+        <input type="text" formControlName="name" placeholder="Nombre completo"
+          class="border-b-2 border-white bg-transparent rounded-t outline-white p-2"
+          [class.border-red-500]="signupForm.controls.name.errors != null">
 
-        <input type="tel" name="phone-number" id="phone-number" placeholder="Teléfono"
-          class="border-b-2 border-white bg-transparent rounded-t outline-white p-2">
+        <input type="tel" formControlName="phoneNumber" placeholder="Teléfono"
+          class="border-b-2 border-white bg-transparent rounded-t outline-white p-2"
+          [class.border-red-500]="signupForm.controls.phoneNumber.errors != null">
 
-        <input type="email" name="email" id="email" placeholder="Email"
-          class="border-b-2 border-white bg-transparent rounded-t outline-white p-2">
+        <input type="email" formControlName="email" placeholder="Email"
+          class="border-b-2 border-white bg-transparent rounded-t outline-white p-2"
+          [class.border-red-500]="signupForm.controls.email.errors != null">
 
-        <input type="password" name="password" id="password" placeholder="Contraseña"
-          class="border-b-2 border-white bg-transparent rounded-t outline-white p-2">
+        <input type="password" formControlName="password" placeholder="Contraseña"
+          class="border-b-2 border-white bg-transparent rounded-t outline-white p-2"
+          [class.border-red-500]="signupForm.controls.password.errors != null">
 
-        <button type="submit"
+        <div *ngIf="signUpError" class="text-sm text-red-500">{{ signUpError }}</div>
+
+        <button type="submit" [disabled]="signupForm.invalid"
           class="button-shadow text-black bg-primary-light text-xl font-bold rounded-full py-4 my-8">
           Registarse
         </button>
