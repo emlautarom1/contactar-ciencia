@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
     try {
       let { email, password } = this.logInForm.getRawValue();
-      await this.session.logIn(email.trim(), password.trim());
+      await this.session.logIn(email, password);
       this.router.navigate(["/"]);
     } catch (error) {
       this.logInError = (error as Error).message;
