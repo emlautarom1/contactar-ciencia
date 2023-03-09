@@ -20,7 +20,7 @@ const routes: Routes = [
     component: SearchComponent
   },
   {
-    path: "profile/:id",
+    path: "profile/:uid",
     component: ProfileComponent
   },
   {

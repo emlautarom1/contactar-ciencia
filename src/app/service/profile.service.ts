@@ -39,6 +39,15 @@ export class ProfileService {
     await updateDoc(queryDocumentSnapshot[0].ref, { ...profile });
   }
 
+  async findProfileByUid(uid: string) {
+    let querySnapshot = await getDocs(
+      query(collection(this.store, "profile"),
+        where("uid", "==", uid), limit(1))
+    );
+    let queryDocumentSnapshot = forEachToArray(querySnapshot);
+    return queryDocumentSnapshot[0]?.data() as Profile
+  }
+
   private buildInitialProfile(uid: string, name: string, phoneNumber: string, email: string): Profile {
     return {
       uid,
