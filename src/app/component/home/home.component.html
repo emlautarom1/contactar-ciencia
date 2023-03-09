@@ -25,10 +25,10 @@
 
     <div class="grow bg-primary-medium text-white">
       <div class="grid auto-rows-fr grid-cols-1 md:grid-cols-2 gap-4 py-2 px-8">
-        <a *ngFor="let s of sciences; let i = index" routerLink="/search">
+        <a *ngFor="let sc of sciencesCounts$ | async" routerLink="/search">
           <div class="w-full h-full p-4 flex flex-col justify-between bg-background-dark rounded-xl">
-            <h3 class="font-bold">{{ s }}</h3>
-            <p class="self-end font-light">{{ ((i + 1) * 3597) % 113 }} resultados</p>
+            <h3 class="font-bold">{{ sc.title }}</h3>
+            <p class="self-end font-light">{{ sc.count }} resultados</p>
           </div>
         </a>
       </div>
