@@ -1,6 +1,15 @@
 import { NgZone } from "@angular/core";
 import { Observable, OperatorFunction } from "rxjs";
 
+export function groupByKey<T extends Record<string, any>, K extends keyof T>(collection: Iterable<T>, key: K) {
+  let groups: { [k: string]: T[] } = {};
+  for (let e of collection) {
+    let group = groups[e[key]] ||= [];
+    group.push(e);
+  }
+  return groups;
+}
+
 export function forEachToArray<T>(arg: { forEach: (callback: (e: T) => void) => void }): T[] {
   let elements: T[] = []
   arg.forEach(e => { elements.push(e); });
