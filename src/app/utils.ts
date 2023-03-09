@@ -2,10 +2,11 @@ import { NgZone } from "@angular/core";
 import { Observable, OperatorFunction } from "rxjs";
 
 export function groupByKey<T extends Record<string, any>, K extends keyof T>(collection: Iterable<T>, key: K) {
-  let groups: { [k: string]: T[] } = {};
+  let groups = new Map<string, T[]>();
   for (let e of collection) {
-    let group = groups[e[key]] ||= [];
-    group.push(e);
+    let g = (groups.get(e[key]) ?? []);
+    g.push(e);
+    groups.set(e[key], g);
   }
   return groups;
 }
