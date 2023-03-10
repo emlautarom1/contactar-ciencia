@@ -10,9 +10,9 @@
         </h2>
       </div>
 
-      <form class="mt-4 flex flex-row justify-center gap-2">
-        <input type="search" placeholder="Experticia" class="rounded p-2">
-        <button type="submit" routerLink="/search" class="bg-primary-light font-bold rounded text-black px-6">
+      <form [formGroup]="simpleSearch" (ngSubmit)="onSimpleSearch()" class="mt-4 flex flex-row justify-center gap-2">
+        <input formControlName="term" type="search" placeholder="Experticia" class="rounded p-2">
+        <button type="submit" class="bg-primary-light font-bold rounded text-black px-6">
           Buscar
         </button>
       </form>
