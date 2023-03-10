@@ -3,7 +3,7 @@
 <div class="flex flex-col items-center bg-background-dark">
   <div class="w-full max-w-4xl min-h-screen grow flex flex-col">
     <form class="px-4 py-6 flex flex-col gap-4 bg-background-light text-white" [formGroup]="searchForm">
-      <input type="search" name="search" id="search" placeholder="Buscar..."
+      <input formControlName="term" type="search" id="term" placeholder="Buscar..."
         class="px-4 py-2 my-2 text-lg w-full rounded-full bg-background-dark">
 
       <div class="flex flex-col gap-1">
@@ -31,7 +31,7 @@
       <div class="flex flex-col gap-1">
         <label for="location" class="font-light">Ubicación</label>
         <div class="flex flex-row">
-          <input type="text" name="location" id="location" placeholder="Argentina"
+          <input formControlName="location" type="text" id="location" placeholder="Argentina"
             class="w-full p-1 text-white text-ellipsis bg-background-dark rounded">
         </div>
       </div>
@@ -41,13 +41,13 @@
       <h1 class="px-6 py-2 text-xl font-bold">Resultados</h1>
 
       <div class="px-8 py-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <a *ngFor="let _ of [].constructor(5)" routerLink="/profile/IAi43S5PogNKuCDYWGqfsYxXi273"
+        <a *ngFor="let profile of searchResults$ | async" [routerLink]="['profile', profile.uid]"
           class="w-full flex flex-row gap-4 items-center p-2 rounded-tl-3xl rounded-xl bg-primary-medium">
-          <img src="assets/avatar/placeholder.png" alt="avatar" class="w-16 h-16 rounded-full">
+          <img [src]="profile.pictureURL" alt="avatar" class="w-16 h-16 object-cover rounded-full">
           <div class="flex flex-col grow">
-            <h2 class="font-bold">Patricia Estela Verdes</h2>
-            <h3 class="text-sm">Ciencias agropecuarias y Veterinaria</h3>
-            <h4 class="text-sm font-light">San Luis</h4>
+            <h2 class="font-bold">{{ profile.name }}</h2>
+            <h3 class="text-sm">{{ profile.specialization }}</h3>
+            <h4 class="text-sm font-light">{{ profile.location.city }}, {{ profile.location.province }}</h4>
           </div>
           <span class="p-1 bg-background-dark text-primary-light rounded-full">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
