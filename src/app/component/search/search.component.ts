@@ -1,16 +1,17 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { map, shareReplay, Subscription, switchMap } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs';
 import { SearchService } from 'src/app/service/search.service';
 import { ValuesService } from 'src/app/service/values.service';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class SearchComponent implements OnInit {
   searchForm = this.fb.group({
     term: [""],
     science: [null as string | null],
@@ -22,34 +23,22 @@ export class SearchComponent implements OnInit, OnDestroy {
     map(science => science ? this.values.specializationsFor(science) : [])
   );
 
-  searchTerms$ = this.route.queryParamMap.pipe(
+  searchResults$ = this.route.queryParamMap.pipe(
     map(params => this.mergeParamMap(params, this.searchForm.getRawValue())),
-    shareReplay(1)
-  );
-  searchResults$ = this.searchTerms$.pipe(
+    // TODO: This could create issues with crafted queryParams
+    tap(terms => this.searchForm.patchValue(terms)),
     switchMap(terms => this.search.byTerms(terms))
   );
-
-  _searchTermsSyncSub!: Subscription;
 
   constructor(
     private search: SearchService,
     private values: ValuesService,
     private route: ActivatedRoute,
     private router: Router,
-    private changeDetector: ChangeDetectorRef,
     private fb: FormBuilder,
   ) { }
 
   ngOnInit(): void {
-    this._searchTermsSyncSub = this.searchTerms$.subscribe(terms => {
-      this.changeDetector.detectChanges();
-      this.searchForm.patchValue(terms);
-    });
-  }
-
-  ngOnDestroy(): void {
-    this._searchTermsSyncSub.unsubscribe();
   }
 
   onSearch() {
