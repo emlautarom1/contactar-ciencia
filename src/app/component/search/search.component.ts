@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { map, shareReplay, switchMap } from 'rxjs';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { map, shareReplay, Subscription, switchMap } from 'rxjs';
 import { SearchService } from 'src/app/service/search.service';
 import { ValuesService } from 'src/app/service/values.service';
 
@@ -15,7 +15,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     term: [""],
     science: [null as string | null],
     specialization: [null as string | null],
-    location: [""]
+    location: [null as string | null]
   });
   validSciences = this.values.allSciences;
   validSpecializations$ = this.searchForm.controls.science.valueChanges.pipe(
@@ -30,21 +30,35 @@ export class SearchComponent implements OnInit, OnDestroy {
     switchMap(terms => this.search.byTerms(terms))
   );
 
-  _searchTermsSyncSub = this.searchTerms$.subscribe(
-    terms => this.searchForm.patchValue(terms)
-  );
+  _searchTermsSyncSub!: Subscription;
 
   constructor(
-    private route: ActivatedRoute,
     private search: SearchService,
     private values: ValuesService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private changeDetector: ChangeDetectorRef,
     private fb: FormBuilder,
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this._searchTermsSyncSub = this.searchTerms$.subscribe(terms => {
+      this.changeDetector.detectChanges();
+      this.searchForm.patchValue(terms);
+    });
+  }
 
   ngOnDestroy(): void {
     this._searchTermsSyncSub.unsubscribe();
+  }
+
+  onSearch() {
+    this.router.navigate(["/search"],
+      {
+        queryParams: this.searchForm.getRawValue(),
+        queryParamsHandling: 'merge'
+      }
+    )
   }
 
   mergeParamMap<T extends Record<string, any>>(paramMap: ParamMap, currentValue: T) {
