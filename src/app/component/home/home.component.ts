@@ -14,25 +14,22 @@ export class HomeComponent implements OnInit {
   simpleSearch = this.fb.nonNullable.group({
     term: ["", [Validators.required]]
   });
-  sciencesCounts$: Observable<{ title: string; count: number; }[]>;
+  sciencesCounts$ = this.search.profilesByScience$.pipe(
+    startWith(new Map()),
+    map(groups => this.values.allSciences.map(science => {
+      return {
+        title: science,
+        count: groups.get(science)?.length ?? 0
+      }
+    }))
+  );
 
   constructor(
     private search: SearchService,
     private values: ValuesService,
     private fb: FormBuilder,
     private router: Router,
-  ) {
-    let sciences = this.values.allSciences;
-    this.sciencesCounts$ = this.search.profilesByScience$.pipe(
-      startWith(new Map()),
-      map(groups => sciences.map(science => {
-        return {
-          title: science,
-          count: groups.get(science)?.length ?? 0
-        }
-      }))
-    );
-  }
+  ) { }
 
   ngOnInit(): void { }
 

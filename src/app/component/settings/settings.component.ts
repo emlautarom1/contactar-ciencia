@@ -117,7 +117,7 @@ export class SettingsComponent implements OnInit {
   }
 
   async onSave() {
-    if (!this.profileForm.valid || this.isLoading) { return }
+    if (this.profileForm.invalid || this.isLoading) { return }
 
     this.isLoading = true;
 

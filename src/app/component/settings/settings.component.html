@@ -153,7 +153,8 @@
       </div>
 
       <div class="self-center md:self-end flex flex-col gap-2 items-center">
-        <button type="submit" class="px-6 py-1 text-lg bg-primary-light rounded text-black">
+        <button [disabled]="profileForm.invalid || isLoading" type="submit"
+          class="px-6 py-1 text-lg bg-primary-light rounded text-black">
           Guardar Cambios
         </button>
 

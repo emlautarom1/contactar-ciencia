@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProfileService } from 'src/app/service/profile.service';
 import { SessionService } from 'src/app/service/session.service';
@@ -21,8 +21,8 @@ export class SignUpComponent implements OnInit {
     password: ["", [Validators.required, Validators.minLength(6)]],
   });
 
-  signUpError: string | null = null;
-  isLoading: boolean = false;
+  signUpError = null as string | null;
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,

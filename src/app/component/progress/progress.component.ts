@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./progress.component.css']
 })
 export class ProgressComponent implements OnInit {
-  @Input() visible: boolean = true;
+  @Input() visible = true;
 
   constructor() { }
 

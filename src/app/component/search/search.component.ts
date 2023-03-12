@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { map, shareReplay, switchMap, tap } from 'rxjs';
+import { map, shareReplay, switchMap } from 'rxjs';
 import { SearchService } from 'src/app/service/search.service';
 import { ValuesService } from 'src/app/service/values.service';
 
@@ -30,7 +30,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     switchMap(terms => this.search.byTerms(terms))
   );
 
-  searchTermsSyncSub = this.searchTerms$.subscribe(
+  _searchTermsSyncSub = this.searchTerms$.subscribe(
     terms => this.searchForm.patchValue(terms)
   );
 
@@ -44,7 +44,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnInit(): void { }
 
   ngOnDestroy(): void {
-    this.searchTermsSyncSub.unsubscribe();
+    this._searchTermsSyncSub.unsubscribe();
   }
 
   mergeParamMap<T extends Record<string, any>>(paramMap: ParamMap, currentValue: T) {
