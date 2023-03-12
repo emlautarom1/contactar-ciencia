@@ -9,6 +9,7 @@ import { ValuesService } from 'src/app/service/values.service';
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css'],
+  // See: https://stackoverflow.com/questions/43375532/expressionchangedafterithasbeencheckederror-explained
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent implements OnInit {
