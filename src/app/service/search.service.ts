@@ -1,8 +1,7 @@
-import { Injectable, NgZone } from '@angular/core';
-import { collection, DocumentData, Firestore, onSnapshot, query, QueryDocumentSnapshot, QuerySnapshot } from '@angular/fire/firestore';
-import { map, Observable, shareReplay } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { collection, Firestore, getDocs, query } from '@angular/fire/firestore';
 import { Profile } from '../model/domain';
-import { forEachToArray, groupByKey, runInZone } from '../utils';
+import { forEachToArray, groupByKey } from '../utils';
 
 export interface SearchTerms {
   term: string,
@@ -15,21 +14,26 @@ export interface SearchTerms {
   providedIn: 'root'
 })
 export class SearchService {
-  private allUsers$ = this.allUsers().pipe(shareReplay(1));
-
-  allProfiles$: Observable<Profile[]> = this.allUsers$.pipe(
-    map(users => users.map(user => user.data() as Profile))
-  );
-  profilesByScience$: Observable<Map<string, Profile[]>> = this.allProfiles$.pipe(
-    map(profiles => groupByKey(profiles, "science"))
-  );
 
   constructor(
     private store: Firestore,
-    private ngZone: NgZone,
   ) { }
 
+  async findAllProfiles(): Promise<Profile[]> {
+    let qs = await getDocs(query(collection(this.store, "profile")));
+    let users = forEachToArray(qs).map(user => user.data() as Profile)
+    return users;
+  }
+
+  async findAllProfilesByScience(): Promise<Map<string, Profile[]>> {
+    let profiles = await this.findAllProfiles();
+    return groupByKey(profiles, 'science');
+  }
+
   async byTerms(terms: Partial<SearchTerms>): Promise<Profile[]> {
+    // TODO: Filter by SearchTerms
+    console.log("Searching...");
+
     let placeholder: Profile = {
       uid: "IAi43S5PogNKuCDYWGqfsYxXi273",
       name: "Patricia Estela Verdes",
@@ -49,15 +53,9 @@ export class SearchService {
       coverLetter: "El potencial productivo de los recursos vegetales nativos de la provincia de San Luis es valioso, ya sea por su potencial forrajero, ornamental, medicinal, industrial y/o alimenticio. El aumento de la población, la necesidad de mejorar la calidad de dieta de los habitantes y los crecientes requerimientos de biocombustibles y biomateriales, entre otros aspectos, llevan a una mayor demanda de productos agropecuarios.",
       workExperience: Array(5).fill({ title: "Mi Proyecto", start_date: "01/2022", end_date: "08/2022", description: "Herramientas biotecnológicas para la domesticación, caracterización y desarrollo de germoplasma nativo con potencial ornamental, aromático y medicinal de la provincia de San Luis" })
     }
-    return Array(5).fill(placeholder);
+    let results = Array(5).fill(placeholder);
+
+    return results;
   }
 
-  private allUsers(): Observable<QueryDocumentSnapshot<DocumentData>[]> {
-    let allUsers = query(collection(this.store, "profile"));
-    return new Observable<QuerySnapshot<DocumentData>>(obs =>
-      onSnapshot(allUsers, obs)).pipe(
-        runInZone(this.ngZone),
-        map(forEachToArray),
-      );
-  }
 }

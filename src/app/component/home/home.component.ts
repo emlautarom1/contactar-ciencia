@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { map, Observable, startWith } from 'rxjs';
+import { from, map, startWith } from 'rxjs';
 import { SearchService } from 'src/app/service/search.service';
 import { ValuesService } from 'src/app/service/values.service';
 
@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   simpleSearch = this.fb.nonNullable.group({
     term: ["", [Validators.required]]
   });
-  sciencesCounts$ = this.search.profilesByScience$.pipe(
+  sciencesCounts$ = from(this.search.findAllProfilesByScience()).pipe(
     startWith(new Map()),
     map(groups => this.values.allSciences.map(science => {
       return {
