@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { collection, Firestore, getDocs, query } from '@angular/fire/firestore';
+import Fuse from 'fuse.js';
 import { Profile } from '../model/domain';
 import { forEachToArray, groupByKey } from '../utils';
 
@@ -30,32 +31,51 @@ export class SearchService {
     return groupByKey(profiles, 'science');
   }
 
-  async byTerms(terms: Partial<SearchTerms>): Promise<Profile[]> {
-    // TODO: Filter by SearchTerms
-    console.log("Searching...");
+  async byTerms(st: Partial<SearchTerms>): Promise<Profile[]> {
+    let profiles = await this.findAllProfiles();
 
-    let placeholder: Profile = {
-      uid: "IAi43S5PogNKuCDYWGqfsYxXi273",
-      name: "Patricia Estela Verdes",
-      pictureURL: "https://firebasestorage.googleapis.com/v0/b/tu-entrevistadx.appspot.com/o/IAi43S5PogNKuCDYWGqfsYxXi273.jpeg?alt=media&token=c9b9139a-55ec-494f-88c7-8d801ed59984",
-      contact: {
-        phone: "266-404-2222",
-        email: "peverdes@unsl.edu.ar",
-        urls: ["http://twitter.com/peverdes"]
-      },
-      location: {
-        city: "Merlo",
-        province: "San Luis"
-      },
-      science: "Agrarias, Ingenierías, Desarrollo Tecnológico y Social",
-      specialization: "Ciencias Agrarias",
-      skills: ["Alimentos", "Salud", "Química", "Ambiente"],
-      coverLetter: "El potencial productivo de los recursos vegetales nativos de la provincia de San Luis es valioso, ya sea por su potencial forrajero, ornamental, medicinal, industrial y/o alimenticio. El aumento de la población, la necesidad de mejorar la calidad de dieta de los habitantes y los crecientes requerimientos de biocombustibles y biomateriales, entre otros aspectos, llevan a una mayor demanda de productos agropecuarios.",
-      workExperience: Array(5).fill({ title: "Mi Proyecto", start_date: "01/2022", end_date: "08/2022", description: "Herramientas biotecnológicas para la domesticación, caracterización y desarrollo de germoplasma nativo con potencial ornamental, aromático y medicinal de la provincia de San Luis" })
-    }
-    let results = Array(5).fill(placeholder);
+    const fuseOpts = {
+      includeScore: true,
+      threshold: 0.4,
+      keys: [
+        "name",
+        "skills",
+        {
+          name: "location",
+          getFn: (profile: Profile) => `${profile.location.city} ${profile.location.province}`
+        },
+        "science",
+        "specialization"
+      ]
+    };
+    const fuse = new Fuse(profiles, fuseOpts);
 
-    return results;
+    let byTerm: Fuse.Expression[] = st.term
+      ? [{
+        $or: [
+          { name: st.term },
+          { skills: st.term }
+        ]
+      }]
+      : []
+
+    let byLocation = st.location
+      ? [{ location: st.location }]
+      : []
+
+    let byScience = st.science
+      ? [{ science: st.science }]
+      : []
+
+    let bySpecialization = st.specialization
+      ? [{ specialization: st.specialization }]
+      : []
+
+    let searchExpr = [byTerm, byLocation, byScience, bySpecialization].flat()
+
+    return fuse
+      .search({ $and: searchExpr })
+      .map(res => res.item);
   }
 
 }
