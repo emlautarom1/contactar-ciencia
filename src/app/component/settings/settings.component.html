@@ -158,8 +158,11 @@
           Guardar Cambios
         </button>
 
-        <span class="text-sm text-green-600" *ngIf="savedChanges">
+        <span class="text-sm text-green-600" *ngIf="saveResult == 'ok'">
           Se han guardado los cambios
+        </span>
+        <span class="text-sm text-red-600" *ngIf="saveResult == 'error'">
+          Se ha producido un error
         </span>
       </div>
     </form>

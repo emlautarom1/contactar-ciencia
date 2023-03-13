@@ -52,7 +52,7 @@ export class SettingsComponent implements OnInit {
   userId!: string;
 
   isLoading = false;
-  savedChanges = false;
+  saveResult: 'ok' | 'error' | 'unsaved' = 'unsaved';
 
   constructor(
     private session: SessionService,
@@ -121,28 +121,33 @@ export class SettingsComponent implements OnInit {
 
     this.isLoading = true;
 
-    let newPicture = this.newPicture.controls.file.getRawValue();
-    if (newPicture) {
-      let pictureURL = await this.pictures.uploadPicture(this.userId, newPicture);
-      this.profileForm.patchValue({ pictureURL });
+    try {
+      let newPicture = this.newPicture.controls.file.getRawValue();
+      if (newPicture) {
+        let pictureURL = await this.pictures.uploadPicture(this.userId, newPicture);
+        this.profileForm.patchValue({ pictureURL });
+      }
+
+      let value = this.profileForm.getRawValue();
+      let updatedProfile: Profile = {
+        ...value,
+        uid: this.userId,
+        skills: value.skills.split(',').map(s => s.trim())
+      };
+
+      await this.ps.updateProfile(updatedProfile);
+
+      this.profileForm.markAsPristine();
+      this.newURL.reset();
+      this.newWorkExperience.reset();
+
+      this.saveResult = 'ok';
+    } catch (error) {
+      this.saveResult = 'error';
+    } finally {
+      this.isLoading = false;
+      setTimeout(() => { this.saveResult = 'unsaved'; }, 2000);
     }
-
-    let value = this.profileForm.getRawValue();
-    let updatedProfile: Profile = {
-      ...value,
-      uid: this.userId,
-      skills: value.skills.split(',').map(s => s.trim())
-    };
-
-    await this.ps.updateProfile(updatedProfile);
-
-    this.profileForm.markAsPristine();
-    this.newURL.reset();
-    this.newWorkExperience.reset();
-
-    this.isLoading = false;
-    this.savedChanges = true;
-    setTimeout(() => this.savedChanges = false, 2000);
   }
 
   skillsValidator(args: { minCount?: number, maxCount?: 8, skill?: { minLength?: number, maxLength?: number } }) {
