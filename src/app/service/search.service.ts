@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { collection, Firestore, getDocs, query } from '@angular/fire/firestore';
 import Fuse from 'fuse.js';
-import { Profile } from '../model/domain';
-import { forEachToArray, groupByKey } from '../utils';
+import { Profile } from 'src/app/model/domain';
+import { forEachToArray, groupByKey } from 'src/app/utils';
 
 export interface SearchTerms {
   term: string,
@@ -34,8 +34,8 @@ export class SearchService {
   async byTerms(st: Partial<SearchTerms>): Promise<Profile[]> {
     let profiles = await this.findAllProfiles();
 
+    const limit = 20;
     const fuseOpts = {
-      includeScore: true,
       threshold: 0.4,
       keys: [
         "name",
@@ -73,9 +73,13 @@ export class SearchService {
 
     let searchExpr = [byTerm, byLocation, byScience, bySpecialization].flat()
 
-    return fuse
-      .search({ $and: searchExpr })
-      .map(res => res.item);
+    if (searchExpr.length > 0) {
+      return fuse
+        .search({ $and: searchExpr }, { limit })
+        .map(res => res.item)
+    } else {
+      return profiles.slice(0, limit)
+    }
   }
 
 }
