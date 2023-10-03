@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, AuthErrorCodes, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, AuthErrorCodes, createUserWithEmailAndPassword, sendPasswordResetEmail } from '@angular/fire/auth';
 import { addDoc, collection, Firestore, getDocs, limit, query, updateDoc, where } from '@angular/fire/firestore';
 import { Profile } from 'src/app/model/domain';
 import { forEachToArray } from 'src/app/utils';
@@ -46,6 +46,10 @@ export class ProfileService {
     );
     let queryDocumentSnapshot = forEachToArray(querySnapshot);
     return queryDocumentSnapshot[0]?.data() as Profile
+  }
+
+  async resetPassword(email: string) {
+    await sendPasswordResetEmail(this.auth, email);
   }
 
   private buildInitialProfile(uid: string, name: string, phoneNumber: string, email: string): Profile {

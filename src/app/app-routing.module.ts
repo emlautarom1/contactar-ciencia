@@ -5,6 +5,7 @@ import { LoginComponent } from './component/login/login.component';
 import { NotFoundComponent } from './component/not-found/not-found.component';
 import { ParticipateComponent } from './component/participate/participate.component';
 import { ProfileComponent } from './component/profile/profile.component';
+import { ResetPasswordComponent } from './component/reset-password/reset-password.component';
 import { SearchComponent } from './component/search/search.component';
 import { SettingsComponent } from './component/settings/settings.component';
 import { SignUpComponent } from './component/sign-up/sign-up.component';
@@ -34,6 +35,10 @@ const routes: Routes = [
   {
     path: "login",
     component: LoginComponent
+  },
+  {
+    path: "reset-password",
+    component: ResetPasswordComponent
   },
   {
     path: "settings",
