@@ -4,6 +4,7 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
+    "site": "contactar-ciencia",
     "public": "dist",
     "ignore": [
       "firebase.json",
