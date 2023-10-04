@@ -14,5 +14,5 @@ Ejecute `npm start` para iniciar el servidor de desarrollo, el cual estará disp
 
 ## Compilado y despliegue
 
-Ejecute `npm run deploy` para desplegar el sitio utilizando Firebase. El sitio se encuentra disponible en https://tu-entrevistadx.web.app/
+Ejecute `npm run deploy` para desplegar el sitio utilizando Firebase. El sitio se encuentra disponible en https://contactar-ciencia.web.app/
 
